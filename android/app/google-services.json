@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "867696770789",
+    "project_id": "zann-ash",
+    "storage_bucket": "zann-ash.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867696770789:android:0127af2e7f3533772c9e0c",
+        "android_client_info": {
+          "package_name": "com.arcTouchApps.zaanassh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867696770789-i07bu452ldl9me6pailj9o7pqo9fo14i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arcTouchApps.zaanassh",
+            "certificate_hash": "5556431426842fb3f49916b2b0cc4c619b5846da"
+          }
+        },
+        {
+          "client_id": "867696770789-0kvgqhlqhul197km961q4frn5iv1178s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-eOH7NucH1jBKFITkipHNErz6Pblb3KI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867696770789-0kvgqhlqhul197km961q4frn5iv1178s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
