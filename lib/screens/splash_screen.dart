@@ -9,20 +9,33 @@ class SplashScreenn extends StatefulWidget {
 }
 
 class _SplashScreennState extends State<SplashScreenn> {
+  //navigate to landing page
+  naviator() {
+    Future.delayed(Duration(seconds: 4))
+        .then((value) => Get.to(() => LandingPage()));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    naviator();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SplashScreen(
-          seconds: 3,
-          navigateAfterSeconds: LandingPage(),
-          title: new Text('Welcome In '),
-          image: new Image.asset(
-            'assets/s.png',
+        backgroundColor: Color.fromRGBO(19, 20, 41, 1),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                "assets/s.png",
+              ),
+              fit: BoxFit.fill,
+            ),
           ),
-          backgroundColor: Colors.white,
-          styleTextUnderTheLoader: new TextStyle(),
-          photoSize: 100.0,
-          loaderColor: Colors.red),
-    );
+        ));
   }
 }
