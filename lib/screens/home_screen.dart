@@ -39,6 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
   RandomColor _randomColor = RandomColor();
   //set month
 
+  void initState() {
+    DrawerClass().getImage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -13,6 +13,23 @@ import 'package:zaanassh/screens/unit_messurement_screeen.dart';
 import 'package:zaanassh/services/geo_locator_service.dart';
 
 class DrawerClass {
+  Future<String> getImage() async {
+    String imageUrl;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .collection("avatar")
+        .doc("avatar")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        imageUrl = documentSnapshot.data()['avatar'];
+        print("Success $imageUrl");
+      }
+    });
+    return imageUrl;
+  }
+
   Widget drawer(BuildContext context) {
     return Drawer(
       child: Container(
@@ -34,9 +51,22 @@ class DrawerClass {
                     radius: MediaQuery.of(context).size.width / 6,
                     child: ClipOval(
                       child: Container(
-                        child: Image.network(
-                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                          fit: BoxFit.fill,
+                        child: FutureBuilder<String>(
+                          future: getImage(),
+                          builder: (context, snapshot) {
+                            print(snapshot.data);
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return Image.network(
+                                snapshot.data,
+                                fit: BoxFit.fill,
+                              );
+                            } else {
+                              return Image.network(
+                                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+                                fit: BoxFit.fill,
+                              );
+                            }
+                          },
                         ),
                         width: MediaQuery.of(context).size.width / 3,
                         height: MediaQuery.of(context).size.width / 3,
