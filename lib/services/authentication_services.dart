@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
@@ -51,33 +52,17 @@ class AuthenticationServices {
 //sign up with facebook
   Future<bool> signUpWithFacebook() async {
     try {
-      final fb = FacebookLogin();
-      final result = await fb.logIn(permissions: [
-        FacebookPermission.publicProfile,
-        FacebookPermission.email,
-      ]);
-      switch (result.status) {
-        case FacebookLoginStatus.success:
-          //get token
-          final FacebookAccessToken facebookAccessToken = result.accessToken;
-          //create credetial
-          final AuthCredential authCredential =
-              FacebookAuthProvider.credential(facebookAccessToken.token);
-          // sign in with credential
-          final r = await auth.signInWithCredential(authCredential);
-          print("email is ${r.user.email}");
-          print("worked");
-          break;
-        case FacebookLoginStatus.cancel:
-          print("Cancled");
+      // Trigger the sign-in flow
+      final AccessToken result = await FacebookAuth.instance.login();
 
-          break;
-        case FacebookLoginStatus.error:
-          print("error");
+      // Create a credential from the access token
+      final FacebookAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(result.token);
 
-          break;
-      }
-      return false;
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      print("It worked");
+      return true;
     } catch (e) {
       print("Facebook sign in faled $e");
       return false;

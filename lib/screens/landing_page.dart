@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
 import 'package:zaanassh/screens/signup_screen.dart';
+import 'package:zaanassh/screens/splash_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _LandingPageState extends State<LandingPage> {
           if (user == null) {
             return SignupScreen();
           } else {
-            print(user.email);
+            //print(user.email);
             return NavigationBarScreen();
           }
         } else {

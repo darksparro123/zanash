@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,10 @@ import 'package:zaanassh/screens/daily_record_screen.dart';
 import 'package:zaanassh/screens/drawe.dart';
 import 'package:zaanassh/screens/find_friends_screen.dart';
 import 'package:zaanassh/screens/profile_edit_page.dart';
+import 'package:zaanassh/screens/profile_picture.dart';
 import 'package:zaanassh/screens/weekly_summaries_screen.dart';
 import 'package:zaanassh/services/save_profile_picture.dart';
+import 'package:zaanassh/services/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String email;
@@ -21,6 +24,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 //  SaveProfilePicture saveProfilePicture = SaveProfilePicture();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -608,37 +612,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-          Positioned(
-            top: MediaQuery.of(context).size.width / 7,
-            right: MediaQuery.of(context).size.width / 3.2,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MaterialButton(
-                  onPressed: () async {
-                    //File file = await saveProfilePicture.getImage();
-                    //saveProfilePicture.saveImageToFirestore(file);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    height: MediaQuery.of(context).size.height / 5.5,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(
-                        25.0,
-                      ),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          ProfilePicture(
+            fromProfilePage: true,
           ),
         ],
       ),

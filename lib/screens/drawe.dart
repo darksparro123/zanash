@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:zaanassh/screens/landing_page.dart';
+import 'package:zaanassh/screens/profile_picture.dart';
 import 'package:zaanassh/screens/profile_screen.dart';
 import 'package:zaanassh/screens/poly_line_screen.dart';
 import 'package:zaanassh/screens/record_screen.dart';
@@ -30,16 +31,14 @@ class DrawerClass {
                 CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 5.5,
                   backgroundColor: Colors.grey[500].withOpacity(0.5),
+                  foregroundColor: Colors.black,
                   child: CircleAvatar(
+                    backgroundColor: Colors.grey[500].withOpacity(0.5),
+                    foregroundColor: Colors.black,
                     radius: MediaQuery.of(context).size.width / 6,
                     child: ClipOval(
-                      child: Container(
-                        child: Image.network(
-                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                          fit: BoxFit.fill,
-                        ),
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
+                      child: ProfilePicture(
+                        fromProfilePage: false,
                       ),
                     ),
                   ),

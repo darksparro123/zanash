@@ -9,6 +9,7 @@ class SharedPrefferencesServices {
   static const String IMG_KEY = "IMAGE_KEY";
   //save image to prefferences method
   static Future<bool> saveImageToPrefferences(String value) async {
+    print("Sdave image to prefferences called");
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     return sharedPreferences.setString(IMG_KEY, value);

@@ -178,7 +178,7 @@ class _RecordScreenState extends State<RecordScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "ZAA",
+                text: "ZAN",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: MediaQuery.of(context).size.width / 22,
@@ -187,7 +187,7 @@ class _RecordScreenState extends State<RecordScreen> {
                 ),
               ),
               TextSpan(
-                text: "NASSH",
+                text: "NASH",
                 style: TextStyle(
                   color: Colors.orange,
                   fontSize: MediaQuery.of(context).size.width / 22,

@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "ZA",
+                text: "ZAN",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: MediaQuery.of(context).size.width / 22,
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextSpan(
-                text: "NNASH",
+                text: "NASH",
                 style: TextStyle(
                   color: Colors.orange,
                   fontSize: MediaQuery.of(context).size.width / 22,
