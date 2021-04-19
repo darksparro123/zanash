@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -61,10 +60,12 @@ class AuthenticationServices {
 
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+
       print("It worked");
       return true;
     } catch (e) {
-      print("Facebook sign in faled $e");
+      Get.dialog(Dialog(child: Text(e.toString())));
+
       return false;
     }
   }

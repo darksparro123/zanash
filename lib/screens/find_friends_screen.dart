@@ -58,7 +58,10 @@ class _FindFreiendsScreenState extends State<FindFreiendsScreen> {
           }
           return ListView(
               children: snapshot.data.docs.map((doc) {
-            return (doc.id != FirebaseAuth.instance.currentUser.email)
+            return (doc.id != FirebaseAuth.instance.currentUser.email &&
+                    doc.data()["name"] != null &&
+                    doc.data()["city"] != null &&
+                    doc.data()["country"] != null)
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(

@@ -103,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: () async {
                       bool shouldNavigate =
                           await AuthenticationServices().signUpWithFacebook();
-                      if (shouldNavigate) {
+                      /*if (shouldNavigate) {
                         Get.to(() => ChooseSport());
                         print(FirebaseAuth.instance.currentUser.email);
                       } else {
@@ -129,7 +129,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             )
                           ],
                         ));
-                      }
+                      }*/
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
