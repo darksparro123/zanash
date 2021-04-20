@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:zaanassh/screens/landing_page.dart';
-import 'package:zaanassh/screens/profile_picture.dart';
 import 'package:zaanassh/screens/profile_screen.dart';
 import 'package:zaanassh/screens/poly_line_screen.dart';
 import 'package:zaanassh/screens/record_screen.dart';
@@ -14,6 +13,23 @@ import 'package:zaanassh/screens/unit_messurement_screeen.dart';
 import 'package:zaanassh/services/geo_locator_service.dart';
 
 class DrawerClass {
+  Future<String> getImage() async {
+    String imageUrl;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .collection("avatar")
+        .doc("avatar")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        imageUrl = documentSnapshot.data()['avatar'];
+        print("Success $imageUrl");
+      }
+    });
+    return imageUrl;
+  }
+
   Widget drawer(BuildContext context) {
     return Drawer(
       child: Container(
@@ -31,14 +47,29 @@ class DrawerClass {
                 CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 5.5,
                   backgroundColor: Colors.grey[500].withOpacity(0.5),
-                  foregroundColor: Colors.black,
                   child: CircleAvatar(
-                    backgroundColor: Colors.grey[500].withOpacity(0.5),
-                    foregroundColor: Colors.black,
                     radius: MediaQuery.of(context).size.width / 6,
                     child: ClipOval(
-                      child: ProfilePicture(
-                        fromProfilePage: false,
+                      child: Container(
+                        child: FutureBuilder<String>(
+                          future: getImage(),
+                          builder: (context, snapshot) {
+                            print(snapshot.data);
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return Image.network(
+                                snapshot.data,
+                                fit: BoxFit.fill,
+                              );
+                            } else {
+                              return Image.network(
+                                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+                                fit: BoxFit.fill,
+                              );
+                            }
+                          },
+                        ),
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
                       ),
                     ),
                   ),

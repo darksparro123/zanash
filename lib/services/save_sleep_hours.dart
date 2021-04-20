@@ -24,7 +24,7 @@ class SleepHours {
       await firebase.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(documentReference);
 
-        if (!snapshot.exists) {
+        if (!snapshot.exists || snapshot.data()["sleep_time"] == null) {
           transaction.set(
             documentReference,
             {
@@ -49,7 +49,8 @@ class SleepHours {
       await firebase.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(weeklyReference);
 
-        if (!snapshot.exists) {
+        if (!snapshot.exists || snapshot.data()["sleep_times"] == null) {
+          print("Snapshot isn't exists");
           transaction.set(
             weeklyReference,
             {

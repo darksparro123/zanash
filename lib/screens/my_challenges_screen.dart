@@ -133,7 +133,7 @@ class _MyChallengesScreenState extends State<MyChallengesScreen> {
                               fromUsScreen: false));
                         },
                         child: Text(
-                          "See Cahllenge",
+                          "See Challenge",
                           style: TextStyle(
                             color: Colors.amber,
                           ),

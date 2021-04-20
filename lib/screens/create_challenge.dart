@@ -1,8 +1,16 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:switcher_button/switcher_button.dart';
+import 'package:zaanassh/screens/drawe.dart';
 import 'package:zaanassh/screens/user_challenges.dart';
 import 'package:zaanassh/services/create_challenge_service.dart';
 
@@ -13,6 +21,7 @@ class CreateChallengeScreen extends StatefulWidget {
 
 class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
   String challengeType = "Public";
+  File challengeImage;
   bool type = false;
   bool imagePicked = false;
   final formKey = GlobalKey<FormState>();
@@ -145,12 +154,28 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                             IconButton(
                               icon: Icon(FontAwesomeIcons.fileImage),
                               color: Colors.amber[600],
-                              onPressed: () {},
+                              onPressed: () async {
+                                ImagePicker imagePicker = ImagePicker();
+                                PickedFile challengeImg = await imagePicker
+                                    .getImage(source: ImageSource.gallery);
+                                setState(() {
+                                  challengeImage = File(challengeImg.path);
+                                  imagePicked = true;
+                                });
+                              },
                             ),
                           ],
                         )
                       : SizedBox(
-                          width: 0,
+                          width: (challengeImage != null)
+                              ? MediaQuery.of(context).size.width / 1.2
+                              : 0.0,
+                          height: (challengeImage != null)
+                              ? MediaQuery.of(context).size.height / 5
+                              : 0.0,
+                          child: Text("Image picked",
+                              style: TextStyle(
+                                  color: Colors.amber[700], fontSize: 18.0)),
                         ),
                   SizedBox(
                     height: 10.0,
@@ -272,13 +297,16 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                   MaterialButton(
                     onPressed: () async {
                       if (formKey.currentState.validate()) {
-                        bool a = await CreateChallenge().createChallenge(
-                            name.text, description.text, type, day, steps);
-                        if (a) {
-                          Get.snackbar("Challenge", "Created Succusfully");
-                          Future.delayed(Duration(seconds: 3))
-                              .then((value) => Get.to(UserChallengsScreen()));
-                        }
+                        Future<String> a = CreateChallenge().uploadFile(
+                          challengeImage,
+                          context,
+                          name.text,
+                          description.text,
+                          type,
+                          day.toString(),
+                          steps,
+                        );
+                        CreateChallenge().loadingWidget(context, a);
                       }
                     },
                     child: Container(

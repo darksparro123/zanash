@@ -103,6 +103,10 @@ class SaveActivity {
             "year": DateTime.now().year,
             "user_id": auth.currentUser.email
           });
+          await firebase
+              .collection("weekly_summaries")
+              .doc()
+              .set({"email": auth.currentUser.email});
           print("Weeekly data added succusfully");
         } else {
           int highestStapes = 0;

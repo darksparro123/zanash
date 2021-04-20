@@ -76,7 +76,9 @@ class _UserChallengsScreenState extends State<UserChallengsScreen> {
                           // color: Colors.white.withOpacity(0.1),
                           image: DecorationImage(
                             image: NetworkImage(
-                              e.data()["image_link"],
+                              (e.data()["image_link"] != null)
+                                  ? e.data()["image_link"]
+                                  : "",
                             ),
                             fit: BoxFit.fill,
                           )),

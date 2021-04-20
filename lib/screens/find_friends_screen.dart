@@ -80,9 +80,9 @@ class _FindFreiendsScreenState extends State<FindFreiendsScreen> {
                             width: MediaQuery.of(context).size.width / 8.0,
                             height: MediaQuery.of(context).size.width / 8.0,
                             child: Image.network(
-                              (doc.data()["profile_image_link"] == null)
+                              (doc.data()["avatar"] == null)
                                   ? "https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg"
-                                  : doc.data()["profile_image_link"],
+                                  : doc.data()["avatar"],
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -129,7 +129,7 @@ class _FindFreiendsScreenState extends State<FindFreiendsScreen> {
                                     doc.data()["name"],
                                     doc.data()["city"],
                                     doc.data()["country"],
-                                    doc.data()["profile_image_link"]);
+                                    doc.data()["avatar"]);
                             if (a) {
                               Get.snackbar(name, "Followe request sent");
                             }

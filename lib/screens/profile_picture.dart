@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*mport 'package:flutter/material.dart';
 import 'package:zaanassh/services/shared_preferences.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +16,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
   //pick an image
   pickImage(ImageSource source) {
     setState(() {
-      profileImage = ImagePicker.pickImage(source: source);
+     PickedFile profileImage = ImagePicker.getImage(source: source);
     });
     if (profileImage != null) {
       loadImageFromPreferences();
@@ -133,3 +133,4 @@ class _ProfilePictureState extends State<ProfilePicture> {
           );
   }
 }
+*-*/

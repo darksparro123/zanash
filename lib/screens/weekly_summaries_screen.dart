@@ -130,6 +130,7 @@ class _WeeklySummariesScreenState extends State<WeeklySummariesScreen> {
                           ),
                         );
                       }
+                      print(doc.id);
                       return (doc.id.split(" ")[2] ==
                               FirebaseAuth.instance.currentUser.email)
                           ? Container(
