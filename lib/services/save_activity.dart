@@ -105,7 +105,7 @@ class SaveActivity {
           });
           await firebase
               .collection("weekly_summaries")
-              .doc()
+              .doc(docId)
               .set({"email": auth.currentUser.email});
           print("Weeekly data added succusfully");
         } else {
@@ -210,9 +210,8 @@ class SaveActivity {
             },
           );
         } else if (snapshot.data()["steps"] == null) {
-          transaction.set(documentReference, {
-            "steps": steps,
-          });
+          transaction.set(
+              documentReference, {"steps": steps, "day": DateTime.now().day});
         } else {
           transaction.update(
             documentReference,
@@ -220,6 +219,7 @@ class SaveActivity {
               "steps": steps + snapshot.data()["steps"],
               "month": getMonth(month),
               "user_id": auth.currentUser.email,
+              "day": DateTime.now().day
             },
           );
         }

@@ -20,7 +20,7 @@ class SleepHours {
       int week = (dayOfYear(DateTime.now()) ~/ 7).toInt();
       String weekDocId = "week $week ${auth.currentUser.email}";
       DocumentReference documentReference =
-          firebase.collection("daily_activities").doc(docId);
+          firebase.collection("daily_activities_sleep").doc(docId);
       await firebase.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(documentReference);
 

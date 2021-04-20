@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
@@ -60,7 +61,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 ),
               ],
             ),
-            Row(
+            /*Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -73,6 +74,11 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                       .snapshots(),
                   //initialData: initialData ,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SpinKitChasingDots(color: Colors.amber[700]),
+                      );
+                    }
                     return Container(
                       child: Text(
                         (snapshot.data != null)
@@ -87,7 +93,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   },
                 ),
               ],
-            ),
+            ),*/
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

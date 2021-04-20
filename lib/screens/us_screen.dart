@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:zaanassh/screens/create_challenge.dart';
+import 'package:zaanassh/services/calculate_daily_calories.dart';
+import 'package:zaanassh/services/cal_daily_water.dart';
 import 'package:zaanassh/screens/drawe.dart';
 import 'package:zaanassh/screens/friends_screen.dart';
 import 'package:zaanassh/screens/profile_screen.dart';
 import 'package:zaanassh/screens/set_goal_dialog.dart';
 import 'package:zaanassh/screens/user_challenges.dart';
+import 'package:zaanassh/screens/sleep.dart';
 
 class UsScreen extends StatefulWidget {
   @override
@@ -170,13 +172,46 @@ class _UsScreenState extends State<UsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          "Your Rank",
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: MediaQuery.of(context).size.width / 25,
-                          ),
-                        ),
+                        StreamBuilder<QuerySnapshot>(
+                            stream: firebase
+                                .collection("challenge_results")
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SpinKitFadingCube(
+                                    color: Colors.amber[700],
+                                  ),
+                                );
+                              }
+                              var doc = snapshot.data.docs;
+                              return SizedBox(
+                                width: 50.0,
+                                height: 10.0,
+                                child: ListView.builder(
+                                    itemCount: doc.length,
+                                    itemBuilder: (context, index) {
+                                      if (doc[index].id ==
+                                          auth.currentUser.email) {
+                                        return Text(
+                                          "Your Rank : $index",
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                25,
+                                          ),
+                                        );
+                                      } else {
+                                        return SizedBox(
+                                          width: 0,
+                                        );
+                                      }
+                                    }),
+                              );
+                            }),
                         StreamBuilder<DocumentSnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection("users")
@@ -243,7 +278,7 @@ class _UsScreenState extends State<UsScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 18),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Text(
                   "My Goals",
                   style: TextStyle(
@@ -466,6 +501,16 @@ class _UsScreenState extends State<UsScreen> {
                         ),
                       ),
                     ),
+                  ],
+                ),
+                SizedBox(height: 15.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CalDailyWaterUsage(),
+                    // SleepIndicator(),
+                    CalCaloriesPercantage(),
                   ],
                 )
               ],

@@ -5,7 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zaanassh/screens/see_challenge.dart';
+import 'package:zaanassh/screens/user_challenges.dart';
 
 class CreateChallenge {
   final firebase = FirebaseFirestore.instance;
@@ -31,6 +34,7 @@ class CreateChallenge {
         "created_at": DateTime.now(),
         "challenge_participents": 0,
         "image_link": imageLink,
+        "participants": [],
       }).then((value) {});
 
       return true;
@@ -69,7 +73,7 @@ class CreateChallenge {
       final String downloadUrl = await snapshot.ref.getDownloadURL();
       createChallenge(challengeName, challengeDescription, isPublic,
           challengeDate, goal, downloadUrl);
-
+      Get.to(() => UserChallengsScreen());
       return "Succeful";
     } else {
       return "Unsuccesful";
@@ -101,5 +105,27 @@ class CreateChallenge {
             ),
           );
         });
+  }
+
+  //join challenge
+  Future<bool> joinChallenge(String docId) async {
+    try {
+      DocumentReference documentReference =
+          firebase.collection("challenges").doc(docId);
+      await firebase.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
+        List participants = snapshot.data()["participants"];
+        participants.add(auth.currentUser.email);
+        transaction.update(documentReference, {
+          "participants": participants,
+          "challenge_participents":
+              snapshot.data()["challenge_participents"] + 1,
+        });
+      });
+      return true;
+    } catch (e) {
+      print("Join challenge failed $e");
+      return false;
+    }
   }
 }

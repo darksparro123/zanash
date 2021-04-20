@@ -316,7 +316,7 @@ class DrawerClass {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 20,
                   ),
-                  MaterialButton(
+                  /*MaterialButton(
                     onPressed: () {
                       Get.to(() => SettingsScreen());
                     },
@@ -346,7 +346,7 @@ class DrawerClass {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 20,
-                  ),
+                  ),*/
                   TextButton(
                     onPressed: () {
                       FirebaseAuth.instance

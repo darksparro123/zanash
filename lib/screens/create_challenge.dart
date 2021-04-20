@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:switcher_button/switcher_button.dart';
 import 'package:zaanassh/screens/drawe.dart';
+import 'package:zaanassh/screens/see_challenge.dart';
 import 'package:zaanassh/screens/user_challenges.dart';
 import 'package:zaanassh/services/create_challenge_service.dart';
 
@@ -306,7 +307,6 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                           day.toString(),
                           steps,
                         );
-                        CreateChallenge().loadingWidget(context, a);
                       }
                     },
                     child: Container(

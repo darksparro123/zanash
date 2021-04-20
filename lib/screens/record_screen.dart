@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' show cos, sqrt, asin;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -163,7 +165,7 @@ class _RecordScreenState extends State<RecordScreen> {
         unit = distanceData["rows"][0]["elements"][0]["distance"]["text"]
             .split(" ")[1];
       }*/
-      print("lastPos: $lastPosition");
+      //print("lastPos: $lastPosition");
       Future.delayed(Duration(milliseconds: 150), () async {
         var p2pdistance = await geolocator.distanceBetween(
             lastPosition.latitude,
@@ -172,7 +174,7 @@ class _RecordScreenState extends State<RecordScreen> {
             streamPosition.longitude);
         var tmp = p2pdistance.toStringAsFixed(3);
         p2pdistance = double.parse(tmp);
-        print("p2pDistance: $p2pdistance");
+        // print("p2pDistance: $p2pdistance");
         distance += p2pdistance;
         if (distance >= 1000) {
           distance = distance / 1000;
@@ -185,6 +187,45 @@ class _RecordScreenState extends State<RecordScreen> {
       yield 0.0;
     }
     count++;
+  }
+
+  final firebase = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  double calories = 0.0;
+  int age = 0;
+  double weight = 0;
+  Future<double> calculateCalories(int time) async {
+    if (isStarted) {
+      DocumentReference ageReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("user_data")
+          .doc("age");
+
+      DocumentReference weightReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("weight")
+          .doc("weight");
+      firebase.runTransaction((transaction) async {
+        DocumentSnapshot ageSnapshot = await transaction.get(ageReference);
+        DocumentSnapshot weightSnapshot =
+            await transaction.get(weightReference);
+
+        setState(() {
+          age = DateTime.now().year -
+              int.parse(ageSnapshot.data()["age"].toString().split("-")[0]);
+          // print("Age is $age");
+          weight = weightSnapshot.data()["weight"];
+          // print("weight is $weight ");
+          calories = (age * 0.074) -
+              (weight * 0.05741) +
+              (78 * 0.4472 - 20.4022) * time / 4.184;
+        });
+      });
+    }
+    print("Calories is $calories");
+    return calories;
   }
 
   @override
@@ -360,6 +401,60 @@ class _RecordScreenState extends State<RecordScreen> {
                   },
                 );
               },
+            ),
+            Container(
+              color: Colors.grey[500],
+              child: SizedBox(
+                height: 0.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "CALORIES",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.orange[600],
+                    letterSpacing: 1.5,
+                    fontSize: MediaQuery.of(context).size.width / 25,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            FutureBuilder(
+              future: calculateCalories(time.toInt()),
+              builder: (context, AsyncSnapshot<double> snapshot) {
+                if (!snapshot.hasData || snapshot.data == null) {
+                  return Center(
+                    child: SpinKitChasingDots(
+                      color: Colors.orange[700],
+                    ),
+                  );
+                }
+                print("${snapshot.data} is s timr is $time");
+                return Text(
+                    (snapshot.data > 0)
+                        ? "${snapshot.data.floorToDouble()}"
+                        : "0.0",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 6.5,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ));
+              },
+            ),
+            Container(
+              color: Colors.grey[500],
+              child: SizedBox(
+                height: 0.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+              ),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
