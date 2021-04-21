@@ -9,7 +9,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:http/http.dart" as http;
-import 'package:zaanassh/screens/start_runScreen.dart';
+import 'package:zaanassh/screens/navigation_bar.dart';
+
 import 'package:zaanassh/services/save_challenge_result.dart';
 
 class StartWalkScreen extends StatefulWidget {
@@ -562,7 +563,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
                                               .saveChallengeResult(
                                                   a, widget.challengeId);
                                           if (b) {
-                                            Navigator.pop(context);
+                                            Get.to(() => NavigationBarScreen());
                                           }
                                         },
                                         child: Text(

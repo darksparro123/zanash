@@ -85,9 +85,10 @@ class SaveActivity {
 
     int week = (dayOfYear(DateTime.now()) ~/ 7).toInt();
     String docId = "week $week ${auth.currentUser.email}";
+    print("Save to weekly summaries called ");
     try {
       DocumentReference documentReference = firebase
-          .collection("weekly_summaries")
+          .collection("weekly_steps_summaries")
           .doc(docId)
           .collection("steps")
           .doc("steps");
@@ -104,7 +105,7 @@ class SaveActivity {
             "user_id": auth.currentUser.email
           });
           await firebase
-              .collection("weekly_summaries")
+              .collection("weekly_steps_summaries")
               .doc(docId)
               .set({"email": auth.currentUser.email});
           print("Weeekly data added succusfully");
@@ -121,13 +122,21 @@ class SaveActivity {
           } else {
             lowest = snapshot.data()["least_steps"].toInt();
           }
-
-          transaction.update(documentReference, {
-            "average_steps": steps + snapshot.data()["average_steps"].toInt(),
-            "highest_steps": highestStapes,
-            "least_steps": lowest,
-            "total_calories": totalCalories,
-          });
+          if (snapshot.data()["average_steos"] + steps < 42000) {
+            transaction.update(documentReference, {
+              "average_steps": steps + snapshot.data()["average_steps"].toInt(),
+              "highest_steps": highestStapes,
+              "least_steps": lowest,
+              "total_calories": totalCalories,
+            });
+          } else {
+            transaction.update(documentReference, {
+              "average_steps": 42000,
+              "highest_steps": highestStapes,
+              "least_steps": lowest,
+              "total_calories": totalCalories,
+            });
+          }
           print(
               "Weeekly data updated succusfully $lowest $highestStapes ${steps + snapshot.data()["average_steps"]}");
         }

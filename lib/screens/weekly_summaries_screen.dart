@@ -100,7 +100,7 @@ class _WeeklySummariesScreenState extends State<WeeklySummariesScreen> {
         child: Text("Click me"),*/
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("weekly_summaries")
+              .collection("weekly_steps_summaries")
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             return (!snapshot.hasData || snapshot.isBlank)

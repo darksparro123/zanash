@@ -86,7 +86,7 @@ class _ChallengeResultsScreenState extends State<ChallengeResultsScreen> {
                                             ),
                                             padding: EdgeInsets.all(15.0),
                                             child: Text(
-                                              "Cahllenge Name : ${snapshot.data["challenge_name"]}",
+                                              "Challenge Name : ${snapshot.data["challenge_name"]}",
                                               style: TextStyle(
                                                 color: Colors.orange[600],
                                                 fontSize: MediaQuery.of(context)
