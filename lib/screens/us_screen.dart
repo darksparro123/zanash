@@ -509,7 +509,7 @@ class _UsScreenState extends State<UsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CalDailyWaterUsage(),
-                    // SleepIndicator(),
+                    SleepIndicator(),
                     CalCaloriesPercantage(),
                   ],
                 )

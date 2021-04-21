@@ -36,7 +36,7 @@ class _CalDailyWaterUsageState extends State<CalDailyWaterUsage> {
       });
     }
 
-    print("a is $a");
+    // print("a is $a");
     return a;
   }
 
@@ -49,12 +49,13 @@ class _CalDailyWaterUsageState extends State<CalDailyWaterUsage> {
         if (!snapshot.hasData || snapshot.data == null) {
           return Center(child: SpinKitChasingDots(color: Colors.amber[700]));
         }
-        print(docId);
+        //    print(docId);
         return Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CircularPercentIndicator(
+                backgroundColor: Colors.grey[600],
                 radius: 80.0,
                 lineWidth: 8.0,
                 percent: (snapshot.data / 40 > 1) ? 1 : snapshot.data / 40,
@@ -71,7 +72,7 @@ class _CalDailyWaterUsageState extends State<CalDailyWaterUsage> {
               SizedBox(
                 height: 15.0,
               ),
-              Text("Drink",
+              Text("DRINK",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

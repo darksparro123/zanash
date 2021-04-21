@@ -18,45 +18,61 @@ class _CalCaloriesPercantageState extends State<CalCaloriesPercantage> {
   double c = 0.0;
   Future<double> cal() async {
     try {
-      setState(() {
-        var now = DateFormat.yMMMd().format(DateTime.now());
-        String bId = "$now Breakfast";
-        String lId = "$now Lunch";
-        String dId = "$now Dinner";
-        DocumentReference breakfastReference = firebase
-            .collection("users")
-            .doc(auth.currentUser.email)
-            .collection("food")
-            .doc(bId);
+      var now = DateFormat.yMMMd().format(DateTime.now());
+      // print("now is $now");
+      String bId = "$now Breakfast";
+      String lId = "$now Lunch";
+      String dId = "$now Dinner";
+      DocumentReference breakfastReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("food")
+          .doc(bId);
 
-        DocumentReference lunchReference = firebase
-            .collection("users")
-            .doc(auth.currentUser.email)
-            .collection("food")
-            .doc(lId);
-        DocumentReference dinnerReference = firebase
-            .collection("users")
-            .doc(auth.currentUser.email)
-            .collection("food")
-            .doc(dId);
+      DocumentReference lunchReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("food")
+          .doc(lId);
+      DocumentReference dinnerReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("food")
+          .doc(dId);
 
-        firebase.runTransaction((transaction) async {
-          if (breakfastReference != null) {
-            DocumentSnapshot bSnapshot =
-                await transaction.get(breakfastReference);
-            a = double.parse(bSnapshot.data()["total_calories"]);
+      firebase.runTransaction((transaction) async {
+        if (breakfastReference != null) {
+          DocumentSnapshot bSnapshot =
+              await transaction.get(breakfastReference);
+          if (bSnapshot.data() != null) {
+            setState(() {
+              a = double.parse(bSnapshot.data()["total_calories"]);
+              // print(
+              //   "bsnapshot is ${bSnapshot.data()["total_calories"]} a is $a");
+            });
           }
-          if (lunchReference != null) {
-            DocumentSnapshot lSnapshot = await transaction.get(lunchReference);
-            b = double.parse(lSnapshot.data()["total_calories"]);
+        }
+        if (lunchReference != null) {
+          DocumentSnapshot lSnapshot = await transaction.get(lunchReference);
+          if (lSnapshot.data() != null) {
+            setState(() {
+              b = double.parse(lSnapshot.data()["total_calories"]);
+              //  print("lsnapshot is ${lSnapshot.data()}");
+            });
           }
-          if (dinnerReference != null) {
-            DocumentSnapshot dSnapshot = await transaction.get(dinnerReference);
-            c = double.parse(dSnapshot.data()["total_calories"]);
+        }
+        if (dinnerReference != null) {
+          DocumentSnapshot dSnapshot = await transaction.get(dinnerReference);
+          if (dSnapshot.data() != null) {
+            setState(() {
+              c = double.parse(dSnapshot.data()["total_calories"]);
+              // print("dsnapshot is ${dSnapshot.data()}");
+            });
           }
-        });
-        print("abc is ${a + b + c}");
+        }
       });
+      // print("abc is $a");
+
       return (a + b + c);
     } catch (e) {
       print("Caculate c failed $e");
@@ -73,17 +89,18 @@ class _CalCaloriesPercantageState extends State<CalCaloriesPercantage> {
         if (!snapshot.hasData) {
           return Center(child: SpinKitChasingDots(color: Colors.amber[700]));
         }
-        print(snapshot.data / 3044);
+        //s print("snapsht data is ${snapshot.data}");
         return Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CircularPercentIndicator(
+                backgroundColor: Colors.grey[600],
                 radius: 80.0,
                 lineWidth: 8.0,
                 percent: snapshot.data / 3044,
                 center: new Text(
-                  "${snapshot.data.toInt()}Kc",
+                  "${snapshot.data}Kc",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

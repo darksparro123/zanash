@@ -13,23 +13,35 @@ class SleepIndicator extends StatefulWidget {
 class _SleepIndicatorState extends State<SleepIndicator> {
   final firebase = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
+  int sleepTimes = 0;
+  Future<int> checkSleep() async {
+    DocumentReference documentReference = firebase
+        .collection("daily_activities_sleep")
+        .doc(
+            "${DateTime.now().day} ${FirebaseAuth.instance.currentUser.email}");
 
-  Future<int> checkSleep() {}
+    if (documentReference != null) {
+      firebase.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
+
+        if (snapshot.exists) {
+          setState(() {
+            sleepTimes = snapshot.data()["sleep_times"];
+          });
+        }
+      });
+    }
+    // print("Sleep times is ${sleepTimes / 1}");
+    return sleepTimes;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: firebase
-          .collection("daily_activities_sleep")
-          .doc(
-              "${DateTime.now().day} ${FirebaseAuth.instance.currentUser.email}")
-          .snapshots(),
+    return FutureBuilder<int>(
+      future: checkSleep(),
       //initialData: initialData ,
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (!snapshot.hasData ||
-            snapshot.data == null ||
-            snapshot.data["sleep_times"] == null) {
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        if (!snapshot.hasData || snapshot.data == null) {
           return Center(child: SpinKitChasingDots(color: Colors.amber[700]));
         }
         //print(docId);
@@ -38,13 +50,12 @@ class _SleepIndicatorState extends State<SleepIndicator> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CircularPercentIndicator(
+                backgroundColor: Colors.grey[600],
                 radius: 80.0,
                 lineWidth: 8.0,
-                percent: (snapshot.data["sleep_times"] / 6 > 1)
-                    ? 1.0
-                    : snapshot.data["sleep_times"] / 6,
+                percent: (snapshot.data / 6 > 1) ? 1.0 : snapshot.data / 6,
                 center: new Text(
-                  "${snapshot.data["sleep_times"]}h",
+                  "${snapshot.data}h",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -56,7 +67,7 @@ class _SleepIndicatorState extends State<SleepIndicator> {
               SizedBox(
                 height: 15.0,
               ),
-              Text("Drink",
+              Text("SLEEP",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
