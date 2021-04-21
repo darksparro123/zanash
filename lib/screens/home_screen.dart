@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 import 'package:random_color/random_color.dart';
 import 'package:zaanassh/screens/add_food_details_screen.dart';
+import 'package:zaanassh/screens/ads/ad_screen.dart';
 import 'package:zaanassh/screens/cal_heart.dart';
 import 'package:zaanassh/screens/add_sleep.dart';
 import 'package:zaanassh/screens/add_water.dart';
@@ -48,6 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(35, 36, 70, 1),
+      /*floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          AdScreenState().loadAd();
+        },
+      ),*/
       appBar: AppBar(
         centerTitle: true,
         title: RichText(
@@ -655,7 +661,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  Get.to(() => StartWorkOrRun());
+                  AdScreenState().loadAd(StartWorkOrRun());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -706,7 +712,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => HeartCalScreen());
+                  AdScreenState().loadAd(HeartCalScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -777,7 +783,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => AddSleepScreen());
+                  //Get.to(() => AddSleepScreen());
+                  AdScreenState().loadAd(AddSleepScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -840,7 +847,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  Get.to(() => StartWorkOrRun());
+                  // Get.to(() => StartWorkOrRun());
+                  AdScreenState().loadAd(StartWorkOrRun());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -891,7 +899,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => AddFoodDetailsScreen());
+                  // Get.to(() => AddFoodDetailsScreen());
+                  AdScreenState().loadAd(AddFoodDetailsScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -942,7 +951,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => AddWaterScreen());
+                  //Get.to(() => AddWaterScreen());
+                  AdScreenState().loadAd(AddWaterScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -985,7 +995,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  Get.to(() => WeightScreen());
+                  //Get.to(() => WeightScreen());
+                  AdScreenState().loadAd(WeightScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -1036,7 +1047,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => MyChallengesScreen());
+                  // Get.to(() => MyChallengesScreen());
+                  AdScreenState().loadAd(MyChallengesScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
