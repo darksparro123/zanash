@@ -1,5 +1,6 @@
 import 'package:animated_list_view_scroll/animated_list_view_scroll.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -56,71 +57,78 @@ class _UserChallengsScreenState extends State<UserChallengsScreen> {
           //  var doc = snapshot.data.docs;
           return ListView(
               children: snapshot.data.docs.map((e) {
-            return Container(
-                margin: EdgeInsets.all(15.0),
-                width: MediaQuery.of(context).size.width / 1.5,
-                height: MediaQuery.of(context).size.height / 1.8,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.white.withOpacity(0.1),
-                ),
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      height: MediaQuery.of(context).size.height / 3,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          // color: Colors.white.withOpacity(0.1),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              e.data()["image_link"],
-                            ),
-                            fit: BoxFit.fill,
-                          )),
+            return (!e
+                    .data()["participants"]
+                    .contains(FirebaseAuth.instance.currentUser.email))
+                ? Container(
+                    margin: EdgeInsets.all(15.0),
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    height: MediaQuery.of(context).size.height / 1.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Colors.white.withOpacity(0.1),
                     ),
-                    Text(
-                      e.data()["challenge_name"],
-                      style: TextStyle(
-                        color: Colors.orange[600],
-                        fontSize: MediaQuery.of(context).size.width / 18.0,
-                      ),
-                    ),
-                    Text(
-                      "${e.data()["goal"]} Steps",
-                      style: TextStyle(
-                        color: Colors.orange[600],
-                        fontSize: MediaQuery.of(context).size.width / 22.0,
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        Get.to(() => ViewChallengeScreen(
-                              docId: e.id,
-                            ));
-                        print(e.id);
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.height / 18.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18.0),
-                            color: Colors.orange[600]),
-                        child: Text(
-                          "Start",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.height / 35.0,
-                          ),
-                          textAlign: TextAlign.center,
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10.0),
+                          width: MediaQuery.of(context).size.width / 1.4,
+                          height: MediaQuery.of(context).size.height / 3,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              // color: Colors.white.withOpacity(0.1),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  (e.data()["image_link"] != null)
+                                      ? e.data()["image_link"]
+                                      : "",
+                                ),
+                                fit: BoxFit.fill,
+                              )),
                         ),
-                      ),
-                    )
-                  ],
-                ));
+                        Text(
+                          e.data()["challenge_name"],
+                          style: TextStyle(
+                            color: Colors.orange[600],
+                            fontSize: MediaQuery.of(context).size.width / 18.0,
+                          ),
+                        ),
+                        Text(
+                          "${e.data()["goal"]} Steps",
+                          style: TextStyle(
+                            color: Colors.orange[600],
+                            fontSize: MediaQuery.of(context).size.width / 22.0,
+                          ),
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            Get.to(() => ViewChallengeScreen(
+                                  docId: e.id,
+                                ));
+                            print(e.id);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.height / 18.0,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18.0),
+                                color: Colors.orange[600]),
+                            child: Text(
+                              "Start",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 35.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
+                    ))
+                : SizedBox(width: 0.0);
           }).toList());
         },
       ),

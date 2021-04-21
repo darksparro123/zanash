@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' show cos, sqrt, asin;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,7 +34,7 @@ class _RecordScreenState extends State<RecordScreen> {
   bool isStarted = true;
   bool isReset = true;
   bool isStopped = true;
-  Future<Position> currentPosition;
+  Position initPosition;
   String stopTimetoDisplay;
   var swatch = Stopwatch();
   final dur = const Duration(seconds: 1);
@@ -104,9 +106,7 @@ class _RecordScreenState extends State<RecordScreen> {
 
   @override
   void initState() {
-    setState(() {
-      currentPosition = getCurrentLocation();
-    });
+    getCurrentLocation();
     super.initState();
 
     setState(() {
@@ -134,20 +134,24 @@ class _RecordScreenState extends State<RecordScreen> {
   }
 
   //get currentLocation
-  Future<Position> getCurrentLocation() async {
-    return geolocator.getCurrentPosition();
+  Future getCurrentLocation() async {
+    var initPos = await geolocator.getCurrentPosition();
+    initPosition = initPos;
   }
 
+  Position lastPosition;
   double distance = 0.0;
-  String unit = "";
+  String unit = "m";
+  int count = 0;
+  String avgSpeed = "0";
   Stream<double> getDistance(Position streamPosition) async* {
     sPosition = streamPosition;
     try {
-      Position currentLocation = await currentPosition;
+      /*Position initLocation = initPosition;
 
       //print(streamLocation.distinct());
       String url =
-          "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${currentLocation.latitude},${currentLocation.longitude}&destinations=${streamPosition.latitude},${streamPosition.longitude}&key=AIzaSyBInYMrODKeADbONhwaJ6-SqawifKDnzew";
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${initLocation.latitude},${initLocation.longitude}&destinations=${streamPosition.latitude},${streamPosition.longitude}&key=AIzaSyBInYMrODKeADbONhwaJ6-SqawifKDnzew";
 
       var response = await http.post(Uri.parse(url));
       //print(response.statusCode);
@@ -160,11 +164,68 @@ class _RecordScreenState extends State<RecordScreen> {
             .split(" ")[0]);
         unit = distanceData["rows"][0]["elements"][0]["distance"]["text"]
             .split(" ")[1];
-      }
+      }*/
+      //print("lastPos: $lastPosition");
+      Future.delayed(Duration(milliseconds: 150), () async {
+        var p2pdistance = await geolocator.distanceBetween(
+            lastPosition.latitude,
+            lastPosition.longitude,
+            streamPosition.latitude,
+            streamPosition.longitude);
+        var tmp = p2pdistance.toStringAsFixed(3);
+        p2pdistance = double.parse(tmp);
+        // print("p2pDistance: $p2pdistance");
+        distance += p2pdistance;
+        if (distance >= 1000) {
+          distance = distance / 1000;
+          unit = "km";
+        }
+        avgSpeed = (distance / time).toStringAsFixed(2);
+      });
       yield distance;
     } catch (e) {
       yield 0.0;
     }
+    count++;
+  }
+
+  final firebase = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  double calories = 0.0;
+  int age = 0;
+  double weight = 0;
+  Future<double> calculateCalories(int time) async {
+    if (isStarted) {
+      DocumentReference ageReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("user_data")
+          .doc("age");
+
+      DocumentReference weightReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("weight")
+          .doc("weight");
+      firebase.runTransaction((transaction) async {
+        DocumentSnapshot ageSnapshot = await transaction.get(ageReference);
+        DocumentSnapshot weightSnapshot =
+            await transaction.get(weightReference);
+
+        setState(() {
+          age = DateTime.now().year -
+              int.parse(ageSnapshot.data()["age"].toString().split("-")[0]);
+          // print("Age is $age");
+          weight = weightSnapshot.data()["weight"];
+          // print("weight is $weight ");
+          calories = (age * 0.074) -
+              (weight * 0.05741) +
+              (78 * 0.4472 - 20.4022) * time / 4.184;
+        });
+      });
+    }
+    print("Calories is $calories");
+    return calories;
   }
 
   @override
@@ -267,35 +328,15 @@ class _RecordScreenState extends State<RecordScreen> {
                 ),
               ],
             ),
-            StreamBuilder(
-              stream: geolocatorService.getCurruntLocation(),
-              builder: (context, AsyncSnapshot<Position> snapshot) {
-                //print("Stream location is ${snapshot.data}t");
-                if (!snapshot.hasData || snapshot.data == null) {
-                  return Center(
-                      child: SpinKitChasingDots(color: Colors.orange[700]));
-                }
-                return StreamBuilder(
-                  stream: getDistance(snapshot.data),
-                  // initialData: initialData ,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<double> snapshot) {
-                    if (!snapshot.hasData || snapshot.data == null) {
-                      return Center(
-                          child: SpinKitChasingDots(color: Colors.orange[700]));
-                    }
-                    return Container(
-                        child: Text(
-                      "${snapshot.data ~/ time} $unit ps",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 6.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ));
-                  },
-                );
-              },
+            Container(
+              child: Text(
+                "$avgSpeed ps",
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width / 6.5,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
             ),
             Container(
               color: Colors.grey[500],
@@ -327,20 +368,30 @@ class _RecordScreenState extends State<RecordScreen> {
               builder: (context, AsyncSnapshot<Position> snapshot) {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(
-                      child: SpinKitChasingDots(color: Colors.orange[700]));
+                    child: SpinKitChasingDots(
+                      color: Colors.orange[700],
+                    ),
+                  );
                 }
+                if (lastPosition == null) {
+                  lastPosition = initPosition;
+                } else {
+                  lastPosition = snapshot.data;
+                }
+                print("CurrentPos: ${snapshot.data}");
                 return StreamBuilder(
                   stream: getDistance(snapshot.data),
                   // initialData: initialData ,
                   builder:
-                      (BuildContext context, AsyncSnapshot<double> snapshot) {
-                    if (!snapshot.hasData || snapshot.data == null) {
+                      (BuildContext context, AsyncSnapshot<double> snapshot2) {
+                    if (!snapshot2.hasData || snapshot2.data == null) {
                       return Center(
                           child: SpinKitChasingDots(color: Colors.orange[700]));
                     }
+                    print("distance: ${snapshot2.data.round()}");
                     return Container(
                         child: Text(
-                      "${snapshot.data} $unit",
+                      "${snapshot2.data.roundToDouble()} $unit",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width / 6.5,
                         fontWeight: FontWeight.w700,
@@ -350,6 +401,60 @@ class _RecordScreenState extends State<RecordScreen> {
                   },
                 );
               },
+            ),
+            Container(
+              color: Colors.grey[500],
+              child: SizedBox(
+                height: 0.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "CALORIES",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.orange[600],
+                    letterSpacing: 1.5,
+                    fontSize: MediaQuery.of(context).size.width / 25,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            FutureBuilder(
+              future: calculateCalories(time.toInt()),
+              builder: (context, AsyncSnapshot<double> snapshot) {
+                if (!snapshot.hasData || snapshot.data == null) {
+                  return Center(
+                    child: SpinKitChasingDots(
+                      color: Colors.orange[700],
+                    ),
+                  );
+                }
+                print("${snapshot.data} is s timr is $time");
+                return Text(
+                    (snapshot.data > 0)
+                        ? "${snapshot.data.floorToDouble()}"
+                        : "0.0",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 6.5,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ));
+              },
+            ),
+            Container(
+              color: Colors.grey[500],
+              child: SizedBox(
+                height: 0.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+              ),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,

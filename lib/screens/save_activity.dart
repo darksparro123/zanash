@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:zaanassh/models/sport_model.dart';
 import 'package:zaanassh/screens/choose_sport.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
@@ -354,7 +355,10 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                                     MediaQuery.of(context).size.width / 32,
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              ImagePicker()
+                                  .getImage(source: ImageSource.gallery);
+                            },
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 3,

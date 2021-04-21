@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +8,12 @@ import 'package:zaanassh/screens/daily_record_screen.dart';
 import 'package:zaanassh/screens/drawe.dart';
 import 'package:zaanassh/screens/find_friends_screen.dart';
 import 'package:zaanassh/screens/profile_edit_page.dart';
-import 'package:zaanassh/screens/profile_picture.dart';
 import 'package:zaanassh/screens/weekly_summaries_screen.dart';
 import 'package:zaanassh/services/save_profile_picture.dart';
-import 'package:zaanassh/services/shared_preferences.dart';
+
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String email;
@@ -23,7 +23,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String imageUrl;
 //  SaveProfilePicture saveProfilePicture = SaveProfilePicture();
+  @override
+  void initState() {
+    getImage();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -612,8 +618,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-          ProfilePicture(
-            fromProfilePage: true,
+          Positioned(
+            top: MediaQuery.of(context).size.width / 7,
+            right: MediaQuery.of(context).size.width / 3.2,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  onPressed: () async {
+                    if (widget.email == null) {
+                      bottomSheet(context);
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.height / 5.5,
+                    height: MediaQuery.of(context).size.height / 5.5,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(
+                        25.0,
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                          (imageUrl == null)
+                              ? "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                              : imageUrl,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -625,5 +663,245 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: Colors.orange,
         fontSize: MediaQuery.of(context).size.width / 25,
         letterSpacing: 1.0);
+  }
+
+  final picker = ImagePicker();
+  File _image;
+
+  void bottomSheet(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: new Wrap(
+            children: <Widget>[
+              new ListTile(
+                tileColor: Color.fromRGBO(35, 36, 70, 1),
+                leading: Icon(
+                  Icons.camera,
+                  color: Colors.orange,
+                ),
+                title: Text(
+                  "Take Photo",
+                  style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  _takeUserImage(context);
+                  Navigator.pop(context);
+                },
+              ),
+              new ListTile(
+                tileColor: Color.fromRGBO(35, 36, 70, 1),
+                leading: Icon(
+                  Icons.image,
+                  color: Colors.orange,
+                ),
+                title: Text(
+                  "Choose from gallery",
+                  style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  _addNewUserImageFromGallery(context);
+                  Navigator.pop(context);
+                },
+              ),
+              new ListTile(
+                  tileColor: Color.fromRGBO(35, 36, 70, 1),
+                  leading: Icon(
+                    Icons.close,
+                    color: Colors.orange,
+                  ),
+                  title: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future _addNewUserImageFromGallery(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    _image = File(pickedFile.path);
+    _image = await cropImage(_image);
+    buildImageUploadingDialog(context, _image);
+  }
+
+  Future _takeUserImage(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    _image = File(pickedFile.path);
+    _image = await cropImage(_image);
+    buildImageUploadingDialog(context, _image);
+  }
+
+  Future<String> uploadFile(File file, context) async {
+    if (file == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('No file was selected'),
+      ));
+      return null;
+    }
+    FirebaseStorage storage = FirebaseStorage.instance;
+    String email = FirebaseAuth.instance.currentUser.email;
+
+    // Create a Reference to the file
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('avatars')
+        .child(FirebaseAuth.instance.currentUser.email);
+    TaskSnapshot snapshot =
+        await storage.ref().child("avatars/$email").putFile(file);
+    if (snapshot.state == TaskState.success) {
+      final String downloadUrl = await snapshot.ref.getDownloadURL();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(email)
+          .collection('avatar')
+          .doc('avatar')
+          .set({'avatar': downloadUrl});
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(email)
+          .set({'avatar': downloadUrl});
+      return "Succeful";
+    } else {
+      return "Unsuccesful";
+    }
+  }
+
+  Future<File> cropImage(File image) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: image.path,
+      aspectRatioPresets: Platform.isAndroid
+          ? [
+              CropAspectRatioPreset.square,
+            ]
+          : [CropAspectRatioPreset.square],
+      androidUiSettings: AndroidUiSettings(
+          toolbarTitle: "Cropper",
+          toolbarColor: Colors.blue[900],
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+      iosUiSettings: IOSUiSettings(
+        title: "Cropper",
+      ),
+    );
+    return croppedFile;
+  }
+
+  buildImageUploadingDialog(BuildContext context, File image) {
+    return showDialog(
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Color.fromRGBO(35, 36, 70, 1),
+          title: Text("Uploading",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              )),
+          content: FutureBuilder(
+            future: uploadFile(image, context),
+            builder: (context, snapshot) {
+              List<Widget> children;
+              if (snapshot.hasData) {
+                children = [
+                  Icon(
+                    Icons.check_circle_outline,
+                    color: Colors.orange,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    snapshot.data,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ];
+                Future.delayed(Duration(seconds: 2), () {
+                  setState(() {
+                    getImage();
+                    DrawerClass().getImage();
+                  });
+                  Navigator.pop(context);
+                });
+              } else if (snapshot.hasError) {
+                children = [
+                  Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Unsuccesful!",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ];
+                Future.delayed(Duration(seconds: 2), () {
+                  setState(() {
+                    getImage();
+                    DrawerClass().getImage();
+                  });
+                  Navigator.pop(context);
+                });
+              } else {
+                children = [
+                  CircularProgressIndicator(),
+                ];
+              }
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: children,
+                ),
+              );
+            },
+          ),
+        );
+      },
+      context: context,
+    );
+  }
+
+  Future<void> getImage() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .collection("avatar")
+        .doc("avatar")
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          imageUrl = documentSnapshot.data()['avatar'];
+        });
+        print("Succesful" + imageUrl);
+      } else {
+        print("Document does not exist");
+      }
+    });
   }
 }

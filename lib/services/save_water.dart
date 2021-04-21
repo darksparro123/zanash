@@ -30,6 +30,9 @@ class SaveWater {
         } else {
           int previousTimes = documentSnapshot.data()["times"];
           int newTimes = times + previousTimes;
+          if (newTimes > 40) {
+            newTimes = 40;
+          }
           transaction.update(documentReference, {"times": newTimes});
         }
       });

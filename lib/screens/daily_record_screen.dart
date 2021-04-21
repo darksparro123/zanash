@@ -341,7 +341,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                       lineWidth: 8.0,
                                     ),
                                     Text(
-                                      "${(snapshot.data.data()["average_steps"] / 42000 * 100).floor()} %",
+                                      "${(snapshot.data.data()["average_steps"] / 4200 * 100).floorToDouble()} %",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -399,7 +399,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                       lineWidth: 8.0,
                                     ),
                                     Text(
-                                      "${(double.parse(snapshot.data.data()["total_calories"]) / 20000 * 100).floor()} %",
+                                      "${(double.parse(snapshot.data.data()["total_calories"]) / 2000 * 1000).floorToDouble()} %",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -456,7 +456,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                       lineWidth: 8.0,
                                     ),
                                     Text(
-                                      "${(snapshot.data.data()["sleep_times"] / 42 * 100).floor()} %",
+                                      "${(snapshot.data.data()["sleep_times"] / 42 * 100).floorToDouble()} %",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,

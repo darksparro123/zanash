@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "ZAA",
+                      text: "ZAN",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: MediaQuery.of(context).size.width / 18,

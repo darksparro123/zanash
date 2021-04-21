@@ -1,9 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'package:zaanassh/screens/heart_chart.dart';
+import 'package:zaanassh/screens/timer_scree.dart';
 
 import '../services/save_activity.dart';
 import 'navigation_bar.dart';
@@ -129,6 +131,21 @@ class HeartCalScreenView extends State<HeartCalScreen> {
     }
   }
 
+  int seconds = 60;
+  //time cal
+  timeCalculator() {
+    if (_toggled) {
+      while (seconds < 0) {
+        Future.delayed(Duration(seconds: 1)).then((value) {
+          setState(() {
+            seconds--;
+          });
+        });
+      }
+    }
+    print(seconds);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +170,7 @@ class HeartCalScreenView extends State<HeartCalScreen> {
                       fontSize: MediaQuery.of(context).size.height / 45.0),
                 ),
                 onPressed: () async {
-                  bool shouldNavigate = await SaveActivity().saveBPM(_bpm);
+                  bool shouldNavigate = await SaveActivity().saveBPM(_bpm * 2);
                   if (shouldNavigate) {
                     Get.to(() => NavigationBarScreen());
                     _disposeController();
@@ -186,7 +203,7 @@ class HeartCalScreenView extends State<HeartCalScreen> {
                             child: Text(
                               (_bpm > 30 && _bpm < 150
                                   ? "${_bpm.round().toString()} BPM"
-                                  : "--"),
+                                  : "${_bpm.roundToDouble()}"),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orange[700],
@@ -213,10 +230,12 @@ class HeartCalScreenView extends State<HeartCalScreen> {
                         } else {
                           _toggle();
                         }
+                        //timeCalculator();
                       },
                     ),
                   ),
                 ),
+                timer(),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(12),
@@ -232,5 +251,37 @@ class HeartCalScreenView extends State<HeartCalScreen> {
             ),
           ),
         ));
+  }
+
+  timer() {
+    return (_toggled)
+        ? Countdown(
+            seconds: 30,
+            build: (BuildContext context, double time) => Text(
+              time.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: MediaQuery.of(context).size.width / 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            interval: Duration(milliseconds: 100),
+            onFinished: () {
+              print('Timer is done!');
+              setState(() {
+                _toggled = false;
+              });
+              _disposeController();
+            },
+          )
+        : Text(
+            "Cover the both camera and flash light from finger",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: MediaQuery.of(context).size.width / 21.0,
+              fontWeight: FontWeight.bold,
+            ),
+          );
   }
 }

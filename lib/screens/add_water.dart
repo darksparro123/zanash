@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
@@ -10,10 +13,15 @@ class AddWaterScreen extends StatefulWidget {
 }
 
 class _AddWaterScreenState extends State<AddWaterScreen> {
+  String docId;
   //set Dodat date
   String setToday() {
     DateTime now = DateTime.now();
     String today = DateFormat('MM/dd').format(now);
+    setState(() {
+      docId =
+          "${DateFormat('MM dd').format(now)} ${FirebaseAuth.instance.currentUser.email}";
+    });
     return today;
   }
 
@@ -53,6 +61,39 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 ),
               ],
             ),
+            /*Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("daily_activities")
+                      .doc(FirebaseAuth.instance.currentUser.email)
+                      .collection("water_drinks")
+                      .doc("$docId")
+                      .snapshots(),
+                  //initialData: initialData ,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SpinKitChasingDots(color: Colors.amber[700]),
+                      );
+                    }
+                    return Container(
+                      child: Text(
+                        (snapshot.data != null)
+                            ? "You drank ${snapshot.data["times"]} glasses of water in Today"
+                            : "You doesn't drink water today",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: MediaQuery.of(context).size.width / 20.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),*/
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +117,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   iconSize: MediaQuery.of(context).size.width / 5.0,
                 ),
                 Text(
-                  "${numberOfGlasses.toString()}",
+                  "${numberOfGlasses.toString()} glasses",
                   style: TextStyle(
                     color: Colors.orange[600],
                     fontSize: MediaQuery.of(context).size.width / 10.0,
@@ -117,7 +158,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 bool a = await SaveWater().saveWater(numberOfGlasses);
                 if (a) {
                   // Get.snackbar("Water", "Added succusfully");
-                  Get.to(NavigationBarScreen());
+                  Get.to(() => NavigationBarScreen());
                 }
               },
             ),
