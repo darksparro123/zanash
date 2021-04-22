@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zaanassh/screens/home_screen.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
+import 'package:zaanassh/screens/privacy_screeen.dart';
 import 'package:zaanassh/screens/signin_screen.dart';
 import 'package:zaanassh/screens/signup_screen.dart';
 import 'package:zaanassh/services/authentication_services.dart';
@@ -184,7 +185,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                                             passwordController.text);
 
                                 if (shgouldNavigate) {
-                                  Get.to(() => NavigationBarScreen());
+                                  Get.to(() => PrivacyScreen());
                                 } else {
                                   Get.dialog(AlertDialog(
                                     backgroundColor:

@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zaanassh/screens/ads/banner_ad.dart';
 import 'package:zaanassh/screens/choose_sport.dart';
 import 'package:zaanassh/screens/navigation_bar.dart';
+import 'package:zaanassh/screens/privacy_screeen.dart';
+import 'package:zaanassh/screens/settings.dart';
 import 'package:zaanassh/screens/signin_screen.dart';
 import 'package:zaanassh/screens/signup_with_email_screen.dart';
 import 'package:zaanassh/services/authentication_services.dart';
@@ -103,9 +106,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: () async {
                       bool shouldNavigate =
                           await AuthenticationServices().signUpWithFacebook();
-                      /*if (shouldNavigate) {
-                        Get.to(() => ChooseSport());
-                        print(FirebaseAuth.instance.currentUser.email);
+                      if (shouldNavigate) {
+                        Get.to(() => PrivacyScreen());
+                        //  print(FirebaseAuth.instance.currentUser.email);
                       } else {
                         Get.dialog(AlertDialog(
                           shape: RoundedRectangleBorder(
@@ -129,7 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             )
                           ],
                         ));
-                      }*/
+                      }
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -171,7 +174,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           await AuthenticationServices().signUpWithGoogle();
 
                       if (shouldNavigate) {
-                        Get.to(() => ChooseSport());
+                        Get.to(() => PrivacyScreen());
                       } else {
                         /*Get.dialog(AlertDialog(
                           shape: RoundedRectangleBorder(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zaanassh/screens/choose_sport.dart';
 import 'package:zaanassh/screens/forget_password_scren.dart';
+import 'package:zaanassh/screens/privacy_screeen.dart';
+import 'package:zaanassh/screens/settings.dart';
 import 'package:zaanassh/screens/signup_screen.dart';
 import 'package:zaanassh/screens/signup_with_email_screen.dart';
 import 'package:zaanassh/services/authentication_services.dart';
@@ -167,7 +169,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             .signInWithEmail(
                                 emailController.text, passwordController.text);
                         if (shouldNavigate) {
-                          Get.to(() => ChooseSport());
+                          Get.to(() => PrivacyScreen());
                         } else {
                           Get.dialog(AlertDialog(
                             shape: RoundedRectangleBorder(

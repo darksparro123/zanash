@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:zaanassh/screens/contact_us.dart';
 import 'package:zaanassh/screens/landing_page.dart';
 import 'package:zaanassh/screens/profile_screen.dart';
 import 'package:zaanassh/screens/poly_line_screen.dart';
@@ -254,7 +255,7 @@ class DrawerClass {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  /* SizedBox(
                     height: MediaQuery.of(context).size.height / 20,
                   ),
                   MaterialButton(
@@ -284,11 +285,14 @@ class DrawerClass {
                         )
                       ],
                     ),
-                  ),
+                  ),*/
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 20,
                   ),
                   MaterialButton(
+                    onPressed: () {
+                      Get.to(() => ConbtactUs());
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,

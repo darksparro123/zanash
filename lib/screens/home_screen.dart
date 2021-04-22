@@ -633,10 +633,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               alignment: Alignment.center,
               child: StreamBuilder<QuerySnapshot>(
-                  stream: firebase
-                      .collection("saved_activities")
-                      .where("customer_id", isEqualTo: auth.currentUser.email)
-                      .snapshots(),
+                  stream: firebase.collection("saved_activities").snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
