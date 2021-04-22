@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:share/share.dart';
+import 'package:zaanassh/screens/step_charts/step_chart_screen.dart';
 
 class DailyRecordScreen extends StatefulWidget {
   final int year;
@@ -616,6 +617,15 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                 ],
                               )
                             : SizedBox(width: 0.0),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15.0)),
+                        width: MediaQuery.of(context).size.width / 1.1,
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        child: StepsChart(),
                       ),
                     ],
                   );
