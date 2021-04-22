@@ -81,7 +81,7 @@ class SetGoalDialog1 {
                     },
                     child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[700],
+                          color: Colors.amber[700],
                           borderRadius: BorderRadius.circular(18.0),
                         ),
                         width: MediaQuery.of(context).size.width / 3,

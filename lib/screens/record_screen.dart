@@ -250,7 +250,7 @@ class _RecordScreenState extends State<RecordScreen> {
               TextSpan(
                 text: "NASH",
                 style: TextStyle(
-                  color: Colors.orange,
+                  color: Colors.amber,
                   fontSize: MediaQuery.of(context).size.width / 22,
                   letterSpacing: 2.0,
                   fontWeight: FontWeight.w700,
@@ -298,7 +298,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   "TIME",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 1.5,
                     fontSize: MediaQuery.of(context).size.width / 25,
                   ),
@@ -321,7 +321,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   "AVG SPEED (s)",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 1.5,
                     fontSize: MediaQuery.of(context).size.width / 25,
                   ),
@@ -353,7 +353,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   "DISTANCE",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 1.5,
                     fontSize: MediaQuery.of(context).size.width / 25,
                   ),
@@ -369,7 +369,7 @@ class _RecordScreenState extends State<RecordScreen> {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(
                     child: SpinKitChasingDots(
-                      color: Colors.orange[700],
+                      color: Colors.amber[700],
                     ),
                   );
                 }
@@ -386,7 +386,7 @@ class _RecordScreenState extends State<RecordScreen> {
                       (BuildContext context, AsyncSnapshot<double> snapshot2) {
                     if (!snapshot2.hasData || snapshot2.data == null) {
                       return Center(
-                          child: SpinKitChasingDots(color: Colors.orange[700]));
+                          child: SpinKitChasingDots(color: Colors.amber[700]));
                     }
                     print("distance: ${snapshot2.data.round()}");
                     return Container(
@@ -417,7 +417,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   "CALORIES",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 1.5,
                     fontSize: MediaQuery.of(context).size.width / 25,
                   ),
@@ -433,7 +433,7 @@ class _RecordScreenState extends State<RecordScreen> {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(
                     child: SpinKitChasingDots(
-                      color: Colors.orange[700],
+                      color: Colors.amber[700],
                     ),
                   );
                 }
@@ -469,7 +469,7 @@ class _RecordScreenState extends State<RecordScreen> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         //borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.orange[600]),
+                        color: Colors.amber[600]),
                     child: Icon(
                       (isStarted) ? Icons.play_arrow_sharp : Icons.stop,
                       color: Colors.white,
@@ -491,7 +491,7 @@ class _RecordScreenState extends State<RecordScreen> {
                     ),
                     child: Icon(
                       Icons.restore_outlined,
-                      color: Colors.orange[600],
+                      color: Colors.amber[600],
                     ),
                   ),
                 ),

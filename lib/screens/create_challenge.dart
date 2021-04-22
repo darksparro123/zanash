@@ -116,7 +116,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                       Text(
                         "$challengeType",
                         style: TextStyle(
-                          color: Colors.orange[600],
+                          color: Colors.amber[600],
                           fontSize: MediaQuery.of(context).size.height / 40,
                           letterSpacing: 1.5,
                           fontWeight: FontWeight.w500,
@@ -127,7 +127,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                         width: MediaQuery.of(context).size.width / 4,
                         height: MediaQuery.of(context).size.height / 30.0,
                         child: SwitcherButton(
-                          onColor: Colors.orange[600],
+                          onColor: Colors.amber[600],
                           value: true,
                           onChange: (value) {
                             print(value);
@@ -311,7 +311,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
                     },
                     child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[600],
+                          color: Colors.amber[600],
                           borderRadius: BorderRadius.circular(18.0),
                         ),
                         width: MediaQuery.of(context).size.width / 2.0,
@@ -335,7 +335,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
   }
 
   TextStyle textStyle() => TextStyle(
-        color: Colors.orange[600],
+        color: Colors.amber[600],
         fontSize: MediaQuery.of(context).size.height / 40,
         letterSpacing: 1.5,
         fontWeight: FontWeight.w500,
@@ -348,16 +348,16 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
       ),
       border: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.orange[600],
+          color: Colors.amber[600],
         ),
       ),
       disabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.orange[600],
+          color: Colors.amber[600],
         ),
       ),
       enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-        color: Colors.orange[600],
+        color: Colors.amber[600],
       )));
 }

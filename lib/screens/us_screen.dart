@@ -68,7 +68,7 @@ class _UsScreenState extends State<UsScreen> {
                       child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Colors.orange[800],
+                            color: Colors.amber[800],
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15.0),
                             ),
@@ -100,7 +100,7 @@ class _UsScreenState extends State<UsScreen> {
                                     if (!snapshot.hasData)
                                       return Center(
                                           child: SpinKitChasingDots(
-                                        color: Colors.orange[600],
+                                        color: Colors.amber[600],
                                       ));
                                     return Text(
                                       (snapshot.data.exists)
@@ -122,7 +122,7 @@ class _UsScreenState extends State<UsScreen> {
                       child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Colors.orange[800],
+                            color: Colors.amber[800],
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(15.0),
                             ),
@@ -228,7 +228,7 @@ class _UsScreenState extends State<UsScreen> {
                                 return Text(
                                   "You haven't started you walk yet",
                                   style: TextStyle(
-                                    color: Colors.orange[800],
+                                    color: Colors.amber[800],
                                     fontSize:
                                         MediaQuery.of(context).size.width / 40,
                                   ),
@@ -251,7 +251,7 @@ class _UsScreenState extends State<UsScreen> {
                                 return Text(
                                   "You haven't started you walk yet",
                                   style: TextStyle(
-                                    color: Colors.orange[800],
+                                    color: Colors.amber[800],
                                     fontSize:
                                         MediaQuery.of(context).size.width / 40,
                                   ),
@@ -334,7 +334,7 @@ class _UsScreenState extends State<UsScreen> {
                                     if (!snapshot.hasData) {
                                       return Center(
                                         child: SpinKitDoubleBounce(
-                                          color: Colors.orange[700],
+                                          color: Colors.amber[700],
                                         ),
                                       );
                                     }
@@ -347,7 +347,7 @@ class _UsScreenState extends State<UsScreen> {
                                                   text:
                                                       "${snapshot.data["step_goal"]}",
                                                   style: TextStyle(
-                                                    color: Colors.orange[700],
+                                                    color: Colors.amber[700],
                                                     fontSize:
                                                         MediaQuery.of(context)
                                                                 .size
@@ -376,7 +376,7 @@ class _UsScreenState extends State<UsScreen> {
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: Colors.orange[700],
+                                                color: Colors.amber[700],
                                                 borderRadius:
                                                     BorderRadius.circular(15.0),
                                               ),
@@ -432,7 +432,7 @@ class _UsScreenState extends State<UsScreen> {
                                     if (!snapshot.hasData) {
                                       return Center(
                                         child: SpinKitDoubleBounce(
-                                          color: Colors.orange[700],
+                                          color: Colors.amber[700],
                                         ),
                                       );
                                     }
@@ -445,7 +445,7 @@ class _UsScreenState extends State<UsScreen> {
                                                   text:
                                                       "${snapshot.data["weight_goal"]}",
                                                   style: TextStyle(
-                                                    color: Colors.orange[700],
+                                                    color: Colors.amber[700],
                                                     fontSize:
                                                         MediaQuery.of(context)
                                                                 .size
@@ -474,7 +474,7 @@ class _UsScreenState extends State<UsScreen> {
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: Colors.orange[700],
+                                                color: Colors.amber[700],
                                                 borderRadius:
                                                     BorderRadius.circular(15.0),
                                               ),

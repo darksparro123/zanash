@@ -32,7 +32,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
           if (!snapshot.hasData) {
             return Center(
               child: SpinKitChasingDots(
-                color: Colors.orange[800],
+                color: Colors.amber[800],
               ),
             );
           }
@@ -74,7 +74,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                               title: Text(
                                 doc.data()["name"],
                                 style: TextStyle(
-                                  color: Colors.orange[800],
+                                  color: Colors.amber[800],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 22.0,
                                   fontWeight: FontWeight.bold,
@@ -83,13 +83,13 @@ class _FriendsScreenState extends State<FriendsScreen> {
                               subtitle: Text(
                                 "${doc.data()["city"]} / ${doc.data()["country"]}",
                                 style: TextStyle(
-                                  color: Colors.orange[600],
+                                  color: Colors.amber[600],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 28.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              // tileColor: Colors.orange[600],
+                              // tileColor: Colors.amber[600],
                             ),
                           ),
                         ))

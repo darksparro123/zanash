@@ -83,7 +83,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person_outline_rounded,
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                 ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey[600],
@@ -119,7 +119,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.mobile_friendly_outlined,
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                 ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey[600],
@@ -154,7 +154,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.lock_outline_rounded,
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                 ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey[600],
@@ -192,7 +192,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                                     title: Text(
                                       "Something went wrong",
                                       style: TextStyle(
-                                        color: Colors.orange,
+                                        color: Colors.amber,
                                       ),
                                     ),
                                     actions: [
@@ -201,7 +201,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                                           child: Text(
                                             "Try Again",
                                             style: TextStyle(
-                                                color: Colors.orange[800]),
+                                                color: Colors.amber[800]),
                                           ),
                                           onPressed: () {
                                             Navigator.pop(context);
@@ -257,7 +257,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                                 child: Text(
                                   "Sign in",
                                   style: TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.amber,
                                     fontSize:
                                         MediaQuery.of(context).size.width / 22,
                                   ),

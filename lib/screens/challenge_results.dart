@@ -88,7 +88,7 @@ class _ChallengeResultsScreenState extends State<ChallengeResultsScreen> {
                                             child: Text(
                                               "Challenge Name : ${snapshot.data["challenge_name"]}",
                                               style: TextStyle(
-                                                color: Colors.orange[600],
+                                                color: Colors.amber[600],
                                                 fontSize: MediaQuery.of(context)
                                                         .size
                                                         .width /
@@ -106,7 +106,7 @@ class _ChallengeResultsScreenState extends State<ChallengeResultsScreen> {
                                     Text(
                                       "Your rank is ${(index + 1).toString().padLeft(2, "0")}",
                                       style: TextStyle(
-                                        color: Colors.orange[600],
+                                        color: Colors.amber[600],
                                         fontSize:
                                             MediaQuery.of(context).size.width /
                                                 20.0,

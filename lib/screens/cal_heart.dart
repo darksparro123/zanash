@@ -206,7 +206,7 @@ class HeartCalScreenView extends State<HeartCalScreen> {
                                   : "${_bpm.roundToDouble()}"),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.orange[700],
+                                color: Colors.amber[700],
                                 fontSize:
                                     MediaQuery.of(context).size.width / 10.0,
                               ),

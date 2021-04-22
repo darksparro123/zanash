@@ -105,7 +105,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
             child: Text(
               "Resume",
               style: TextStyle(
-                color: Colors.orange,
+                color: Colors.amber,
               ),
             ),
           ),
@@ -146,7 +146,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "AVG SPEED",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             fontSize: MediaQuery.of(context).size.width / 36,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.0,
@@ -175,7 +175,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "DISTANCE",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             fontSize: MediaQuery.of(context).size.width / 38,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.0,
@@ -204,7 +204,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "TIME",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             fontSize: MediaQuery.of(context).size.width / 37,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.0,
@@ -231,7 +231,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "CALARIES BURNED",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             fontSize: MediaQuery.of(context).size.width / 43,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
@@ -246,7 +246,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                                     snapshot.data == null) {
                                   return Center(
                                       child: SpinKitChasingDots(
-                                          color: Colors.orange[700]));
+                                          color: Colors.amber[700]));
                                 }
                                 // print("data is ${snapshot.data}");
                                 return Text(
@@ -296,7 +296,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "NAME :",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             letterSpacing: 2.0,
                             fontSize: MediaQuery.of(context).size.width / 25,
                           ),
@@ -342,7 +342,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         children: [
                           Icon(
                             FontAwesomeIcons.upload,
-                            color: Colors.orange,
+                            color: Colors.amber,
                             size: MediaQuery.of(context).size.width / 10,
                           ),
                           TextButton(
@@ -383,7 +383,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                           child: Text(
                             "SPORT :",
                             style: TextStyle(
-                              color: Colors.orange,
+                              color: Colors.amber,
                               letterSpacing: 2.0,
                               fontSize: MediaQuery.of(context).size.width / 25,
                             ),
@@ -434,7 +434,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                                               title: Text(
                                                 "${sports.sportList[index]["sport"]}",
                                                 style: TextStyle(
-                                                  color: Colors.orange,
+                                                  color: Colors.amber,
                                                   fontSize:
                                                       MediaQuery.of(context)
                                                               .size
@@ -498,7 +498,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                           child: Text(
                             "TYPE :",
                             style: TextStyle(
-                              color: Colors.orange,
+                              color: Colors.amber,
                               letterSpacing: 2.0,
                               fontSize: MediaQuery.of(context).size.width / 25,
                             ),
@@ -533,7 +533,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           "DESCRIPTION :",
                           style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.amber,
                             letterSpacing: 2.0,
                             fontSize: MediaQuery.of(context).size.width / 25,
                           ),
@@ -576,7 +576,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                   height: MediaQuery.of(context).size.height / 18.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.0),
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                   ),
                   alignment: Alignment.center,
                   child: Text(

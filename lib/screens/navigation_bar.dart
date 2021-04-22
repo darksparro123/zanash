@@ -55,7 +55,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         elevation: 1.0,
 
         ///configuration for SnakeNavigationBar.color
-        snakeViewColor: Colors.orange[600],
+        snakeViewColor: Colors.amber[600],
         selectedItemColor:
             snakeShape == SnakeShape.indicator ? selectedColor : null,
         unselectedItemColor: Colors.blueGrey,

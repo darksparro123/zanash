@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (!snapshot.hasData)
                           return Center(
                             child: SpinKitChasingDots(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                             ),
                           );
                         return (snapshot.data.exists)
@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             if (!snapshot.hasData)
                               return Center(
                                 child: SpinKitChasingDots(
-                                  color: Colors.orange[600],
+                                  color: Colors.amber[600],
                                 ),
                               );
                             return (snapshot.data.exists)
@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             if (!snapshot.hasData)
                               return Center(
                                 child: SpinKitChasingDots(
-                                  color: Colors.orange[600],
+                                  color: Colors.amber[600],
                                 ),
                               );
                             return (snapshot.data.exists)
@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           if (!snapshot.hasData)
                             return Center(
                                 child: SpinKitChasingDots(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                             ));
                           else {
                             return Column(
@@ -267,7 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           if (!snapshot.hasData)
                             return Center(
                                 child: SpinKitChasingDots(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                             ));
                           return Column(
                             children: [
@@ -299,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   borderRadius: BorderRadius.circular(26),
                                 ),
                                 width: MediaQuery.of(context).size.width / 3.5,
@@ -357,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: MediaQuery.of(context).size.height / 25,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.orange,
+                                color: Colors.amber,
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: StreamBuilder<DocumentSnapshot>(
                                 stream: FirebaseFirestore.instance
@@ -375,7 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   if (!snapshot.hasData)
                                     return Center(
                                       child: SpinKitChasingDots(
-                                        color: Colors.orange[600],
+                                        color: Colors.amber[600],
                                       ),
                                     );
                                   return (snapshot.data.exists)
@@ -413,7 +413,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: MediaQuery.of(context).size.height / 25,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.orange,
+                                color: Colors.amber,
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: StreamBuilder<DocumentSnapshot>(
                                 stream: FirebaseFirestore.instance
@@ -431,7 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   if (!snapshot.hasData)
                                     return Center(
                                       child: SpinKitChasingDots(
-                                        color: Colors.orange[600],
+                                        color: Colors.amber[600],
                                       ),
                                     );
                                   return (snapshot.data.exists)
@@ -484,7 +484,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: MediaQuery.of(context).size.height / 25,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.orange,
+                                color: Colors.amber,
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: StreamBuilder<DocumentSnapshot>(
                                 stream: FirebaseFirestore.instance
@@ -502,7 +502,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   if (!snapshot.hasData)
                                     return Center(
                                         child: SpinKitChasingDots(
-                                            color: Colors.orange[600]));
+                                            color: Colors.amber[600]));
                                   return (snapshot.data.exists)
                                       ? Text(
                                           "${snapshot.data["height"].toString().substring(0, 3)} ${snapshot.data["unit"]}",
@@ -538,7 +538,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: MediaQuery.of(context).size.height / 25,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.orange,
+                                color: Colors.amber,
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: StreamBuilder<DocumentSnapshot>(
                                 stream: FirebaseFirestore.instance
@@ -556,7 +556,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   if (!snapshot.hasData)
                                     return Center(
                                         child: SpinKitChasingDots(
-                                            color: Colors.orange[600]));
+                                            color: Colors.amber[600]));
                                   return (snapshot.data.exists)
                                       ? Text(
                                           "${snapshot.data["weight"].toString().substring(0, 4)} ${snapshot.data["unit"]}",
@@ -660,7 +660,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   TextStyle followTxtStyle() {
     return TextStyle(
-        color: Colors.orange,
+        color: Colors.amber,
         fontSize: MediaQuery.of(context).size.width / 25,
         letterSpacing: 1.0);
   }
@@ -679,12 +679,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 tileColor: Color.fromRGBO(35, 36, 70, 1),
                 leading: Icon(
                   Icons.camera,
-                  color: Colors.orange,
+                  color: Colors.amber,
                 ),
                 title: Text(
                   "Take Photo",
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.amber,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -697,12 +697,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 tileColor: Color.fromRGBO(35, 36, 70, 1),
                 leading: Icon(
                   Icons.image,
-                  color: Colors.orange,
+                  color: Colors.amber,
                 ),
                 title: Text(
                   "Choose from gallery",
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.amber,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -715,12 +715,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   tileColor: Color.fromRGBO(35, 36, 70, 1),
                   leading: Icon(
                     Icons.close,
-                    color: Colors.orange,
+                    color: Colors.amber,
                   ),
                   title: Text(
                     "Cancel",
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.amber,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -822,7 +822,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children = [
                   Icon(
                     Icons.check_circle_outline,
-                    color: Colors.orange,
+                    color: Colors.amber,
                   ),
                   SizedBox(
                     height: 10,

@@ -32,7 +32,7 @@ class _FollowRequestsScreenState extends State<FollowRequestsScreen> {
           if (!snapshot.hasData) {
             return Center(
               child: SpinKitChasingDots(
-                color: Colors.orange[800],
+                color: Colors.amber[800],
               ),
             );
           }
@@ -74,7 +74,7 @@ class _FollowRequestsScreenState extends State<FollowRequestsScreen> {
                               title: Text(
                                 doc.data()["name"],
                                 style: TextStyle(
-                                  color: Colors.orange[800],
+                                  color: Colors.amber[800],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 22.0,
                                   fontWeight: FontWeight.bold,
@@ -83,13 +83,13 @@ class _FollowRequestsScreenState extends State<FollowRequestsScreen> {
                               subtitle: Text(
                                 "${doc.data()["city"]} / ${doc.data()["country"]}",
                                 style: TextStyle(
-                                  color: Colors.orange[600],
+                                  color: Colors.amber[600],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 28.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              // tileColor: Colors.orange[600],
+                              // tileColor: Colors.amber[600],
                               trailing: MaterialButton(
                                 child: Container(
                                   width: MediaQuery.of(context).size.width / 6,
@@ -98,7 +98,7 @@ class _FollowRequestsScreenState extends State<FollowRequestsScreen> {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(18.0),
-                                      color: Colors.orange[600]),
+                                      color: Colors.amber[600]),
                                   child: Text(
                                     "Follow",
                                     style: TextStyle(color: Colors.white),

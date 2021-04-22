@@ -137,7 +137,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories1 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -177,7 +177,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories2 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -217,7 +217,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories3 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -257,7 +257,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories4 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -297,7 +297,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories5 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -337,7 +337,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories6 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -377,7 +377,7 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           (calories7 == "0")
                               ? IconButton(
-                                  color: Colors.orange,
+                                  color: Colors.amber,
                                   onPressed: () {
                                     foodName.text = "";
                                     calories.text = "";
@@ -436,7 +436,7 @@ class _AddFoodState extends State<AddFood> {
                     width: 50.0,
                   ),
                   IconButton(
-                    color: Colors.orange,
+                    color: Colors.amber,
                     onPressed: () {},
                     icon: Icon(Icons.add),
                   )
@@ -492,7 +492,7 @@ class _AddFoodState extends State<AddFood> {
                           border: InputBorder.none,
                           labelText: "Food name",
                           labelStyle: TextStyle(
-                            color: Colors.orange[800],
+                            color: Colors.amber[800],
                           ),
                         ),
                       ),
@@ -517,7 +517,7 @@ class _AddFoodState extends State<AddFood> {
                           border: InputBorder.none,
                           labelText: "Calories",
                           labelStyle: TextStyle(
-                            color: Colors.orange[800],
+                            color: Colors.amber[800],
                           ),
                         ),
                       ),
@@ -593,7 +593,7 @@ class _AddFoodState extends State<AddFood> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(18.0)),
                       width: MediaQuery.of(context).size.width / 1.5,
                       height: MediaQuery.of(context).size.height / 15.0,
@@ -621,7 +621,7 @@ class _AddFoodState extends State<AddFood> {
                           width: MediaQuery.of(context).size.width / 3.5,
                           height: MediaQuery.of(context).size.height / 15.0,
                           decoration: BoxDecoration(
-                            color: Colors.orange[600],
+                            color: Colors.amber[600],
                             borderRadius: BorderRadius.circular(18.0),
                           ),
                           alignment: Alignment.center,
@@ -691,7 +691,7 @@ class _AddFoodState extends State<AddFood> {
                           width: MediaQuery.of(context).size.width / 3.5,
                           height: MediaQuery.of(context).size.height / 15.0,
                           decoration: BoxDecoration(
-                            color: Colors.orange[600],
+                            color: Colors.amber[600],
                             borderRadius: BorderRadius.circular(18.0),
                           ),
                           alignment: Alignment.center,

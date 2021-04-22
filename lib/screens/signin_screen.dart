@@ -149,7 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
               top: MediaQuery.of(context).size.height / 3 + 270,
               child: TextButton(
                 child: Text("Forgot your password?",
-                    style: TextStyle(color: Colors.orange)),
+                    style: TextStyle(color: Colors.amber)),
                 onPressed: () {
                   Get.to(() => ForgetPassword());
                 },
@@ -179,7 +179,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             title: Text(
                               "Something went wrong",
                               style: TextStyle(
-                                color: Colors.orange[600],
+                                color: Colors.amber[600],
                               ),
                             ),
                             actions: [
@@ -240,7 +240,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: MediaQuery.of(context).size.height / 12,
                       decoration: BoxDecoration(
                         // color: Color.fromRGBO(14, 24, 50, 0.8),
-                        border: Border.all(color: Colors.orange),
+                        border: Border.all(color: Colors.amber),
                         borderRadius: BorderRadius.circular(35.0),
                       ),
                       child: Text(

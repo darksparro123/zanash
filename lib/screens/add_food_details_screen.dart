@@ -173,7 +173,7 @@ class _AddFoodDetailsScreenState extends State<AddFoodDetailsScreen> {
                                     : Text(
                                         "Completed",
                                         style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                         ),
                                       ),
                                 SizedBox(height: 10.0),
@@ -277,7 +277,7 @@ class _AddFoodDetailsScreenState extends State<AddFoodDetailsScreen> {
                                     : Text(
                                         "Completed",
                                         style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                         ),
                                       ),
                                 SizedBox(height: 10.0),
@@ -385,7 +385,7 @@ class _AddFoodDetailsScreenState extends State<AddFoodDetailsScreen> {
                                     : Text(
                                         "Completed",
                                         style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                         ),
                                       ),
                                 SizedBox(height: 10.0),

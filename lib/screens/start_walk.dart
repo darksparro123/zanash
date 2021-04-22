@@ -211,7 +211,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
       polylineId: id,
       points: polylineCoordinates,
       width: 8,
-      color: Colors.orange[700],
+      color: Colors.amber[700],
       endCap: Cap.roundCap,
       startCap: Cap.roundCap,
     );
@@ -456,7 +456,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         //borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.orange[600]),
+                        color: Colors.amber[600]),
                     child: Icon(
                       (isStarted) ? Icons.play_arrow_sharp : Icons.stop,
                       color: Colors.white,
@@ -478,7 +478,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
                     ),
                     child: Icon(
                       Icons.restore_outlined,
-                      color: Colors.orange[600],
+                      color: Colors.amber[600],
                     ),
                   ),
                 ),
@@ -569,7 +569,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
                                         child: Text(
                                           "Yes",
                                           style: TextStyle(
-                                            color: Colors.orange[600],
+                                            color: Colors.amber[600],
                                           ),
                                         ),
                                       ),
@@ -580,7 +580,7 @@ class _StartWalkScreenState extends State<StartWalkScreen> {
                                         child: Text(
                                           "No",
                                           style: TextStyle(
-                                            color: Colors.orange[900],
+                                            color: Colors.amber[900],
                                           ),
                                         ),
                                       ),

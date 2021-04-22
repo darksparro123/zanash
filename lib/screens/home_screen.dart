@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               TextSpan(
                 text: "NASH",
                 style: TextStyle(
-                  color: Colors.orange,
+                  color: Colors.amber,
                   fontSize: MediaQuery.of(context).size.width / 22,
                   letterSpacing: 2.0,
                   fontWeight: FontWeight.w700,
@@ -129,15 +129,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
-                              child: SpinKitChasingDots(
-                                  color: Colors.orange[700]));
+                              child:
+                                  SpinKitChasingDots(color: Colors.amber[700]));
                         }
                         if (!snapshot.data.exists ||
                             snapshot.data["step_goal"] == null) {
                           return MaterialButton(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.orange[700],
+                                color: Colors.amber[700],
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
                               width: MediaQuery.of(context).size.width / 5,
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "Step Goal",
                               style: TextStyle(
-                                color: Colors.orange[700],
+                                color: Colors.amber[700],
                                 fontSize:
                                     MediaQuery.of(context).size.width / 26.0,
                                 fontWeight: FontWeight.bold,
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialButton(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.orange[700],
+                                  color: Colors.amber[700],
                                   borderRadius: BorderRadius.circular(18.0),
                                 ),
                                 width: MediaQuery.of(context).size.width / 5,
@@ -227,8 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
-                              child: SpinKitChasingDots(
-                                  color: Colors.orange[700]));
+                              child:
+                                  SpinKitChasingDots(color: Colors.amber[700]));
                         }
                         print("snapshot is ${snapshot.data.exists}");
                         if (!snapshot.data.exists ||
@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return MaterialButton(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.orange[700],
+                                color: Colors.amber[700],
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
                               width: MediaQuery.of(context).size.width / 5,
@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Weight Goal",
                                 style: TextStyle(
-                                  color: Colors.orange[700],
+                                  color: Colors.amber[700],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 28.0,
                                   fontWeight: FontWeight.bold,
@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialButton(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.orange[700],
+                                    color: Colors.amber[700],
                                     borderRadius: BorderRadius.circular(18.0),
                                   ),
                                   width: MediaQuery.of(context).size.width / 5,
@@ -328,8 +328,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
-                              child: SpinKitChasingDots(
-                                  color: Colors.orange[700]));
+                              child:
+                                  SpinKitChasingDots(color: Colors.amber[700]));
                         }
                         print("snapshot is ${snapshot.data.exists}");
                         if (!snapshot.data.exists ||
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return MaterialButton(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.orange[700],
+                                color: Colors.amber[700],
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
                               width: MediaQuery.of(context).size.width / 5,
@@ -368,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Calory Goal",
                                 style: TextStyle(
-                                  color: Colors.orange[700],
+                                  color: Colors.amber[700],
                                   fontSize:
                                       MediaQuery.of(context).size.width / 25.0,
                                   fontWeight: FontWeight.bold,
@@ -385,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialButton(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.orange[700],
+                                    color: Colors.amber[700],
                                     borderRadius: BorderRadius.circular(18.0),
                                   ),
                                   width: MediaQuery.of(context).size.width / 5,
@@ -455,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (!snapshot.hasData) {
                                 return Center(
                                   child: SpinKitThreeBounce(
-                                    color: Colors.orange[700],
+                                    color: Colors.amber[700],
                                   ),
                                 );
                               }
@@ -514,7 +514,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (!snapshot.hasData) {
                         return Center(
                             child:
-                                SpinKitChasingDots(color: Colors.orange[700]));
+                                SpinKitChasingDots(color: Colors.amber[700]));
                       }
 
                       return //Expanded(
@@ -582,7 +582,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (!snapshot.hasData) {
                         return Center(
                             child:
-                                SpinKitChasingDots(color: Colors.orange[700]));
+                                SpinKitChasingDots(color: Colors.amber[700]));
                       }
                       return //Expanded(
                           SizedBox(
@@ -692,7 +692,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -763,7 +763,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -820,7 +820,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -879,7 +879,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -931,7 +931,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -981,7 +981,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: MediaQuery.of(context).size.width / 26,
                             fontWeight: FontWeight.w700,
                           )),
-                      Icon(Icons.add, color: Colors.orange[900])
+                      Icon(Icons.add, color: Colors.amber[900])
                     ],
                   ),
                 ),
@@ -1027,7 +1027,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -1078,7 +1078,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange[800],
+                          color: Colors.amber[800],
                           borderRadius: BorderRadius.circular(
                             18.0,
                           ),
@@ -1128,7 +1128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: SpinKitThreeBounce(
-                        color: Colors.orange[700],
+                        color: Colors.amber[700],
                       ),
                     );
                   }

@@ -47,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     TextSpan(
                       text: "NASH",
                       style: TextStyle(
-                        color: Colors.orange,
+                        color: Colors.amber,
                         fontSize: MediaQuery.of(context).size.width / 18,
                         letterSpacing: 3.0,
                       ),
@@ -117,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           title: Text(
                             "Something went wrong",
                             style: TextStyle(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                             ),
                           ),
                           actions: [
@@ -183,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           title: Text(
                             "Something went wrong",
                             style: TextStyle(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                             ),
                           ),
                           actions: [
@@ -209,7 +209,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           colors: [
                             Colors.lightGreen[600],
                             //Colors.yellow[900],
-                            Colors.orange,
+                            Colors.amber,
                             Colors.pink,
                             //Colors.indigo[600],
                             // Colors.blue[900],
@@ -255,7 +255,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: MediaQuery.of(context).size.height / 12,
                       decoration: BoxDecoration(
                         // color: Color.fromRGBO(14, 24, 50, 0.8),
-                        border: Border.all(color: Colors.orange),
+                        border: Border.all(color: Colors.amber),
                         borderRadius: BorderRadius.circular(35.0),
                       ),
                       child: Text(
@@ -283,7 +283,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Text(
                           "Sign up",
                           style: TextStyle(
-                            color: Colors.orange, //fontWeight: FontWeight.bold,
+                            color: Colors.amber, //fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width / 26,
                             //letterSpacing: 3.0,
                           ),

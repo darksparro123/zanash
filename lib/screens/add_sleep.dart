@@ -47,7 +47,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                   alignment: Alignment.center,
                   child: Text(setToday(),
                       style: TextStyle(
-                        color: Colors.orange[600],
+                        color: Colors.amber[600],
                         fontSize: MediaQuery.of(context).size.width / 18.0,
                       )),
                 ),
@@ -78,7 +78,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                 Text(
                   "${sleepHours.toString()}",
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     fontSize: MediaQuery.of(context).size.width / 10.0,
                   ),
                 ),
@@ -99,7 +99,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
             Text(
               "We reccomend you sleep about 6 hours per day",
               style: TextStyle(
-                color: Colors.orange[800],
+                color: Colors.amber[800],
                 fontSize: MediaQuery.of(context).size.width / 18.0,
               ),
               textAlign: TextAlign.center,
@@ -107,7 +107,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
             MaterialButton(
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.orange[800],
+                    color: Colors.amber[800],
                     borderRadius: BorderRadius.circular(18.0)),
                 width: MediaQuery.of(context).size.width / 2.0,
                 height: MediaQuery.of(context).size.height / 15.0,

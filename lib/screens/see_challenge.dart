@@ -35,7 +35,7 @@ class _SeeChallengeState extends State<SeeChallenge> {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(
                     child: SpinKitCircle(
-                      color: Colors.orange[700],
+                      color: Colors.amber[700],
                     ),
                   );
                 }
@@ -61,7 +61,7 @@ class _SeeChallengeState extends State<SeeChallenge> {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(
                     child: SpinKitCircle(
-                      color: Colors.orange[700],
+                      color: Colors.amber[700],
                     ),
                   );
                 }

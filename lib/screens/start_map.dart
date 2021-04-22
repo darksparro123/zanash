@@ -114,10 +114,10 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      // color: Colors.orange[700],
+                      // color: Colors.amber[700],
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.orange[700],
+                        color: Colors.amber[700],
                         width: 5.0,
                       ),
                     ),
@@ -125,7 +125,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                     height: MediaQuery.of(context).size.width * 0.4,
                     child: Container(
                       decoration: BoxDecoration(
-                        // color: Colors.orange[700],
+                        // color: Colors.amber[700],
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Color.fromRGBO(35, 36, 70, 1),
@@ -136,7 +136,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                       height: MediaQuery.of(context).size.width * 0.3,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.orange[700], shape: BoxShape.circle),
+                            color: Colors.amber[700], shape: BoxShape.circle),
                         width: MediaQuery.of(context).size.width * 0.2,
                         height: MediaQuery.of(context).size.width * 0.2,
                         alignment: Alignment.center,

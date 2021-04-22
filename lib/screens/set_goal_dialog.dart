@@ -58,7 +58,7 @@ class SetGoalDialog {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.orange[700],
+                    color: Colors.amber[700],
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   padding: EdgeInsets.all(6.0),
@@ -131,7 +131,7 @@ class SetGoalDialog {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.orange[700],
+                    color: Colors.amber[700],
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   padding: EdgeInsets.all(6.0),

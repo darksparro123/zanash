@@ -29,7 +29,7 @@ class _ViewChallengeScreenState extends State<ViewChallengeScreen> {
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: SpinKitChasingDots(color: Colors.orange[600]),
+                child: SpinKitChasingDots(color: Colors.amber[600]),
               );
             }
             return (snapshot.data.exists)
@@ -153,7 +153,7 @@ class _ViewChallengeScreenState extends State<ViewChallengeScreen> {
                                         child: Text(
                                           "Goal ${snapshot.data["goal"]} steps",
                                           style: TextStyle(
-                                            color: Colors.orange[600],
+                                            color: Colors.amber[600],
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .width /
@@ -180,7 +180,7 @@ class _ViewChallengeScreenState extends State<ViewChallengeScreen> {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18.0),
-                                color: Colors.orange[600]),
+                                color: Colors.amber[600]),
                             child: Text(
                               "Join",
                               style: TextStyle(
@@ -196,7 +196,7 @@ class _ViewChallengeScreenState extends State<ViewChallengeScreen> {
                     ),
                   )
                 : Center(
-                    child: SpinKitChasingDots(color: Colors.orange[600]),
+                    child: SpinKitChasingDots(color: Colors.amber[600]),
                   );
           },
         ),
@@ -205,7 +205,7 @@ class _ViewChallengeScreenState extends State<ViewChallengeScreen> {
   }
 
   TextStyle textStyle() => TextStyle(
-        color: Colors.orange[600],
+        color: Colors.amber[600],
         fontSize: MediaQuery.of(context).size.height / 24,
         //letterSpacing: 1.5,
         fontWeight: FontWeight.w500,

@@ -88,7 +88,7 @@ class DrawerClass {
                       if (!snapshot.hasData)
                         return Center(
                           child: SpinKitChasingDots(
-                            color: Colors.orange[600],
+                            color: Colors.amber[600],
                           ),
                         );
                       return (snapshot.data.exists)
@@ -124,7 +124,7 @@ class DrawerClass {
                           if (!snapshot.hasData)
                             return Center(
                               child: SpinKitChasingDots(
-                                color: Colors.orange[600],
+                                color: Colors.amber[600],
                               ),
                             );
                           return (snapshot.data.exists)
@@ -156,7 +156,7 @@ class DrawerClass {
                           if (!snapshot.hasData)
                             return Center(
                               child: SpinKitChasingDots(
-                                color: Colors.orange[600],
+                                color: Colors.amber[600],
                               ),
                             );
                           return (snapshot.data.exists)

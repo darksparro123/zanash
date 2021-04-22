@@ -36,7 +36,7 @@ class _ChooseSportState extends State<ChooseSport> {
                 title: Text(
                   "CHOOSE A SPORT",
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 2.0,
                     fontWeight: FontWeight.w900,
                   ),
@@ -81,7 +81,7 @@ class _ChooseSportState extends State<ChooseSport> {
                             title: Text(
                               "${sports.sportList[index]["sport"]}",
                               style: TextStyle(
-                                color: Colors.orange,
+                                color: Colors.amber,
                                 fontSize:
                                     MediaQuery.of(context).size.width / 25,
                                 fontWeight: FontWeight.w700,

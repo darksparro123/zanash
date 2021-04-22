@@ -101,7 +101,7 @@ class _WeightScreenState extends State<WeightScreen> {
                         child: Text(
                           "Fts",
                           style: TextStyle(
-                            color: (isFt) ? Colors.orange[600] : Colors.white,
+                            color: (isFt) ? Colors.amber[600] : Colors.white,
                             fontSize: (isFt)
                                 ? MediaQuery.of(context).size.width / 22.0
                                 : MediaQuery.of(context).size.width / 28.0,
@@ -127,8 +127,7 @@ class _WeightScreenState extends State<WeightScreen> {
                         child: Text(
                           "Meters",
                           style: TextStyle(
-                            color:
-                                (isMeter) ? Colors.orange[600] : Colors.white,
+                            color: (isMeter) ? Colors.amber[600] : Colors.white,
                             fontSize: (isMeter)
                                 ? MediaQuery.of(context).size.width / 22.0
                                 : MediaQuery.of(context).size.width / 28.0,
@@ -199,7 +198,7 @@ class _WeightScreenState extends State<WeightScreen> {
                       ? "${_dragPercentage.toString().substring(0, 3)} Feets"
                       : "${_dragPercentage.toString().substring(0, 3)} Meters",
                   style: TextStyle(
-                      color: Colors.orange[600],
+                      color: Colors.amber[600],
                       fontWeight: FontWeight.bold,
                       fontSize: MediaQuery.of(context).size.width / 18.0),
                 ),
@@ -240,7 +239,7 @@ class _WeightScreenState extends State<WeightScreen> {
                         child: Text(
                           "Lbs",
                           style: TextStyle(
-                            color: (isLbs) ? Colors.orange[600] : Colors.white,
+                            color: (isLbs) ? Colors.amber[600] : Colors.white,
                             fontSize: (isLbs)
                                 ? MediaQuery.of(context).size.width / 22.0
                                 : MediaQuery.of(context).size.width / 28.0,
@@ -266,7 +265,7 @@ class _WeightScreenState extends State<WeightScreen> {
                         child: Text(
                           "Kg",
                           style: TextStyle(
-                            color: (isKg) ? Colors.orange[600] : Colors.white,
+                            color: (isKg) ? Colors.amber[600] : Colors.white,
                             fontSize: (isKg)
                                 ? MediaQuery.of(context).size.width / 22.0
                                 : MediaQuery.of(context).size.width / 28.0,

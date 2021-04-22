@@ -147,7 +147,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                 child: Text(
                   "Share",
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     letterSpacing: 1.0,
                   ),
                 ),
@@ -191,7 +191,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                       Text(
                         "Average Daily Steps",
                         style: TextStyle(
-                          color: Colors.orange[600],
+                          color: Colors.amber[600],
                           fontSize: MediaQuery.of(context).size.width / 28,
                         ),
                       ),
@@ -303,7 +303,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                     Text(
                                       "Steps",
                                       style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -360,7 +360,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                     Text(
                                       "Burned Calories",
                                       style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -423,7 +423,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                                     Text(
                                       "Sleep",
                                       style: TextStyle(
-                                          color: Colors.orange[600],
+                                          color: Colors.amber[600],
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -469,7 +469,7 @@ class _DailyRecordScreenState extends State<DailyRecordScreen> {
                           Text(
                             "Activity Details:",
                             style: TextStyle(
-                              color: Colors.orange[600],
+                              color: Colors.amber[600],
                               fontSize: MediaQuery.of(context).size.width / 28,
                             ),
                           ),

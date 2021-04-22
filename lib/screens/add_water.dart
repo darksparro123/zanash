@@ -55,7 +55,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   alignment: Alignment.center,
                   child: Text(setToday(),
                       style: TextStyle(
-                        color: Colors.orange[600],
+                        color: Colors.amber[600],
                         fontSize: MediaQuery.of(context).size.width / 18.0,
                       )),
                 ),
@@ -119,7 +119,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 Text(
                   "${numberOfGlasses.toString()} glasses",
                   style: TextStyle(
-                    color: Colors.orange[600],
+                    color: Colors.amber[600],
                     fontSize: MediaQuery.of(context).size.width / 10.0,
                   ),
                 ),
@@ -140,7 +140,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
             MaterialButton(
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.orange[800],
+                    color: Colors.amber[800],
                     borderRadius: BorderRadius.circular(18.0)),
                 width: MediaQuery.of(context).size.width / 2.0,
                 height: MediaQuery.of(context).size.height / 15.0,

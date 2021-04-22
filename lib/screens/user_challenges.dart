@@ -29,7 +29,7 @@ class _UserChallengsScreenState extends State<UserChallengsScreen> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18.0),
-                  color: Colors.orange[600]),
+                  color: Colors.amber[600]),
               child: Text(
                 "Create a challenge",
                 style: TextStyle(color: Colors.white),
@@ -90,14 +90,14 @@ class _UserChallengsScreenState extends State<UserChallengsScreen> {
                         Text(
                           e.data()["challenge_name"],
                           style: TextStyle(
-                            color: Colors.orange[600],
+                            color: Colors.amber[600],
                             fontSize: MediaQuery.of(context).size.width / 18.0,
                           ),
                         ),
                         Text(
                           "${e.data()["goal"]} Steps",
                           style: TextStyle(
-                            color: Colors.orange[600],
+                            color: Colors.amber[600],
                             fontSize: MediaQuery.of(context).size.width / 22.0,
                           ),
                         ),
@@ -114,7 +114,7 @@ class _UserChallengsScreenState extends State<UserChallengsScreen> {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18.0),
-                                color: Colors.orange[600]),
+                                color: Colors.amber[600]),
                             child: Text(
                               "Start",
                               style: TextStyle(

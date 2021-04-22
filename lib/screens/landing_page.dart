@@ -29,7 +29,7 @@ class _LandingPageState extends State<LandingPage> {
             backgroundColor: Color.fromRGBO(35, 36, 65, 1),
             body: Center(
               child: SpinKitChasingDots(
-                color: Colors.orange[800],
+                color: Colors.amber[800],
               ),
             ),
           );

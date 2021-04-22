@@ -94,7 +94,7 @@ class _MapPageState extends State<MapPage> {
       child: (originLatitude == null || _kGooglePlex == null)
           ? Center(
               child: SpinKitCircle(
-                color: Colors.orange[600],
+                color: Colors.amber[600],
               ),
             )
           : GoogleMap(
@@ -129,7 +129,7 @@ class _MapPageState extends State<MapPage> {
       polylineId: id,
       points: polylineCoordinates,
       width: 8,
-      color: Colors.orange[700],
+      color: Colors.amber[700],
       endCap: Cap.roundCap,
       startCap: Cap.roundCap,
     );
