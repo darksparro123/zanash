@@ -787,7 +787,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   (doc.data()["distance"] ==
                                                           null)
                                                       ? "0.00"
-                                                      : "${doc.data()["distance"]}",
+                                                      : "${double.parse(doc.data()["distance"]).floorToDouble()}",
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize:

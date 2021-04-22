@@ -6,15 +6,18 @@ class SaveActivity {
   final auth = FirebaseAuth.instance;
 
   Future<bool> saveUserActivity(
-    String title,
-    String sport,
-    String type,
-    String description,
-    String avgSpeed,
-    String distance,
-    String time,
-    String caloriesBurned,
-  ) async {
+      String title,
+      String sport,
+      String type,
+      String description,
+      String avgSpeed,
+      String distance,
+      String time,
+      String caloriesBurned,
+      double dlat,
+      double dlon,
+      double olat,
+      double olon) async {
     try {
       await firebase.collection("saved_activities").doc().set({
         "customer_id": auth.currentUser.email,
@@ -27,6 +30,10 @@ class SaveActivity {
         "sport": sport,
         "type": type,
         "description": description,
+        "destin_lat": dlat,
+        "destin_lon": dlon,
+        "origin_lat": olat,
+        "origin_lon": olon,
       });
 
       savetoweeeklySummaries(double.parse(distance), caloriesBurned);

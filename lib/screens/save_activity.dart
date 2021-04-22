@@ -49,6 +49,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
   final firebase = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
   double calories = 0.0;
+  final formKey = GlobalKey<FormState>();
   Future<double> calculateCalories(int time) async {
     DocumentReference ageReference = firebase
         .collection("users")
@@ -288,283 +289,295 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "NAME :",
-                          style: TextStyle(
-                            color: Colors.amber,
-                            letterSpacing: 2.0,
-                            fontSize: MediaQuery.of(context).size.width / 25,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Expanded(
-                          child: TextFormField(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "NAME :",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 24,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.0,
+                              color: Colors.amber,
+                              letterSpacing: 2.0,
+                              fontSize: MediaQuery.of(context).size.width / 25,
                             ),
-                            controller: titleController,
-                            decoration: InputDecoration(
-                                labelText: "Title Your Activity",
-                                labelStyle: TextStyle(
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              validator: (val) => val.isEmpty
+                                  ? "Plese give a name to your activity"
+                                  : null,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 24,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.0,
+                              ),
+                              controller: titleController,
+                              decoration: InputDecoration(
+                                  labelText: "Title Your Activity",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    letterSpacing: 1.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width / 32,
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        color: Colors.grey[500],
+                        child: SizedBox(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.upload,
+                              color: Colors.amber,
+                              size: MediaQuery.of(context).size.width / 10,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Upload Photo",
+                                style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
                                   letterSpacing: 1.0,
                                   fontSize:
                                       MediaQuery.of(context).size.width / 32,
                                 ),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none)),
-                          ),
+                              ),
+                              onPressed: () {
+                                ImagePicker()
+                                    .getImage(source: ImageSource.gallery);
+                              },
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 3,
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                    Container(
-                      color: Colors.grey[500],
-                      child: SizedBox(
-                        height: 0.5,
-                        width: MediaQuery.of(context).size.width / 1.1,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Container(
+                        color: Colors.grey[500],
+                        child: SizedBox(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                        ),
+                      ),
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
-                            FontAwesomeIcons.upload,
-                            color: Colors.amber,
-                            size: MediaQuery.of(context).size.width / 10,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 14.0),
+                            child: Text(
+                              "SPORT :",
+                              style: TextStyle(
+                                color: Colors.amber,
+                                letterSpacing: 2.0,
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 25,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          (sport == "")
+                              ? TextButton(
+                                  onPressed: () {
+                                    Sports sports = Sports();
+                                    Get.dialog(Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                      backgroundColor:
+                                          Color.fromRGBO(19, 20, 41, 1),
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: sports.sportList.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          return Column(
+                                            children: [
+                                              Container(
+                                                color: Colors.grey[500],
+                                                child: SizedBox(
+                                                  height: 0.5,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.1,
+                                                ),
+                                              ),
+                                              ListTile(
+                                                onTap: () {
+                                                  setState(() {
+                                                    sport =
+                                                        sports.sportList[index]
+                                                            ["sport"];
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                hoverColor: Colors.grey[500],
+                                                leading: sports.sportList[index]
+                                                    ["icon"],
+                                                title: Text(
+                                                  "${sports.sportList[index]["sport"]}",
+                                                  style: TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            25,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ));
+                                  },
+                                  child: Text(
+                                    "SELECT",
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.6),
+                                      letterSpacing: 1.0,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              32,
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(14.0),
+                                  child: Text(
+                                    sport,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.6),
+                                      letterSpacing: 1.0,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              32,
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
+                      Container(
+                        color: Colors.grey[500],
+                        child: SizedBox(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                        ),
+                      ),
+                      Container(
+                        color: Colors.grey[500],
+                        child: SizedBox(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                        ),
+                      ),
+                      /*Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 14.0),
+                            child: Text(
+                              "TYPE :",
+                              style: TextStyle(
+                                color: Colors.amber,
+                                letterSpacing: 2.0,
+                                fontSize: MediaQuery.of(context).size.width / 25,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
                           ),
                           TextButton(
+                            onPressed: () {},
                             child: Text(
-                              "Upload Photo",
+                              "SELECT",
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.6),
                                 letterSpacing: 1.0,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 32,
+                                fontSize: MediaQuery.of(context).size.width / 32,
                               ),
                             ),
-                            onPressed: () {
-                              ImagePicker()
-                                  .getImage(source: ImageSource.gallery);
-                            },
+                          ),
+                        ],
+                      ),*/
+                      Container(
+                        color: Colors.grey[500],
+                        child: SizedBox(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "DESCRIPTION :",
+                            style: TextStyle(
+                              color: Colors.amber,
+                              letterSpacing: 2.0,
+                              fontSize: MediaQuery.of(context).size.width / 25,
+                            ),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                          )
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 24,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.0,
+                              ),
+                              controller: descriptionController,
+                              decoration: InputDecoration(
+                                  labelText: "write about the activity",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    letterSpacing: 1.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width / 32,
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    Container(
-                      color: Colors.grey[500],
-                      child: SizedBox(
-                        height: 0.5,
-                        width: MediaQuery.of(context).size.width / 1.1,
-                      ),
-                    ),
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 14.0),
-                          child: Text(
-                            "SPORT :",
-                            style: TextStyle(
-                              color: Colors.amber,
-                              letterSpacing: 2.0,
-                              fontSize: MediaQuery.of(context).size.width / 25,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        (sport == "")
-                            ? TextButton(
-                                onPressed: () {
-                                  Sports sports = Sports();
-                                  Get.dialog(Dialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ),
-                                    backgroundColor:
-                                        Color.fromRGBO(19, 20, 41, 1),
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: sports.sportList.length,
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        return Column(
-                                          children: [
-                                            Container(
-                                              color: Colors.grey[500],
-                                              child: SizedBox(
-                                                height: 0.5,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.1,
-                                              ),
-                                            ),
-                                            ListTile(
-                                              onTap: () {
-                                                setState(() {
-                                                  sport =
-                                                      sports.sportList[index]
-                                                          ["sport"];
-                                                  Navigator.pop(context);
-                                                });
-                                              },
-                                              hoverColor: Colors.grey[500],
-                                              leading: sports.sportList[index]
-                                                  ["icon"],
-                                              title: Text(
-                                                "${sports.sportList[index]["sport"]}",
-                                                style: TextStyle(
-                                                  color: Colors.amber,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          25,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ));
-                                },
-                                child: Text(
-                                  "SELECT",
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.6),
-                                    letterSpacing: 1.0,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width / 32,
-                                  ),
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: Text(
-                                  sport,
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.6),
-                                    letterSpacing: 1.0,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width / 32,
-                                  ),
-                                ),
-                              ),
-                      ],
-                    ),
-                    Container(
-                      color: Colors.grey[500],
-                      child: SizedBox(
-                        height: 0.5,
-                        width: MediaQuery.of(context).size.width / 1.1,
-                      ),
-                    ),
-                    Container(
-                      color: Colors.grey[500],
-                      child: SizedBox(
-                        height: 0.5,
-                        width: MediaQuery.of(context).size.width / 1.1,
-                      ),
-                    ),
-                    /*Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 14.0),
-                          child: Text(
-                            "TYPE :",
-                            style: TextStyle(
-                              color: Colors.amber,
-                              letterSpacing: 2.0,
-                              fontSize: MediaQuery.of(context).size.width / 25,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "SELECT",
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              letterSpacing: 1.0,
-                              fontSize: MediaQuery.of(context).size.width / 32,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),*/
-                    Container(
-                      color: Colors.grey[500],
-                      child: SizedBox(
-                        height: 0.5,
-                        width: MediaQuery.of(context).size.width / 1.1,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "DESCRIPTION :",
-                          style: TextStyle(
-                            color: Colors.amber,
-                            letterSpacing: 2.0,
-                            fontSize: MediaQuery.of(context).size.width / 25,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 24,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.0,
-                            ),
-                            controller: descriptionController,
-                            decoration: InputDecoration(
-                                labelText: "write about the activity",
-                                labelStyle: TextStyle(
-                                  color: Colors.white.withOpacity(0.6),
-                                  letterSpacing: 1.0,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width / 32,
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -590,21 +603,28 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                   ),
                 ),
                 onPressed: () async {
-                  bool a = await SaveActivity().saveUserActivity(
-                    titleController.text,
-                    sport,
-                    "Fast",
-                    descriptionController.text,
-                    widget.speed.toString(),
-                    widget.distance.toString(),
-                    widget.time.toString(),
-                    calories.toString(),
-                  );
-                  if (a) {
-                    Get.snackbar("Save Activity", "Activity Saved Succesfully");
-                    Get.to(() => NavigationBarScreen());
-                  } else {
-                    Get.snackbar("Save Activity", "Activity Saving failed");
+                  if (formKey.currentState.validate()) {
+                    bool a = await SaveActivity().saveUserActivity(
+                      titleController.text,
+                      sport,
+                      "Fast",
+                      descriptionController.text,
+                      widget.speed.toString(),
+                      widget.distance.toString(),
+                      widget.time.toString(),
+                      calories.toString(),
+                      widget.initialPosition.latitude,
+                      widget.initialPosition.longitude,
+                      widget.currentPosition.latitude,
+                      widget.currentPosition.longitude,
+                    );
+                    if (a) {
+                      Get.snackbar(
+                          "Save Activity", "Activity Saved Succesfully");
+                      Get.to(() => NavigationBarScreen());
+                    } else {
+                      Get.snackbar("Save Activity", "Activity Saving failed");
+                    }
                   }
 
                   // SaveActivity().savetoweeeklySummaries(150.0, "15.0");
