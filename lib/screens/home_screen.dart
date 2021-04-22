@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "ZAN",
+                text: "ZANN",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: MediaQuery.of(context).size.width / 22,
@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextSpan(
-                text: "NASH",
+                text: "ASH",
                 style: TextStyle(
                   color: Colors.amber,
                   fontSize: MediaQuery.of(context).size.width / 22,
@@ -623,37 +623,280 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height / 60,
           ),
-          /* Container(
-            width: MediaQuery.of(context).size.width / 1.3,
-            height: MediaQuery.of(context).size.height / 3.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              color: Colors.white.withOpacity(0.1),
-            ),
-            alignment: Alignment.center,
-            /* child: StreamBuilder<Position>(
-                stream: geolocatorService.getCurruntLocation(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
-                  return Text(
-                      "Lat : ${snapshot.data.latitude} Lng: ${snapshot.data.longitude}",
-                      style: TextStyle(color: Colors.white));
-                }),*/
-            /*  child: FutureProvider(
-                create: (context) => geolocatonService.getInitialLocation(),
-                child: Consumer<Position>(
-                  builder: (context, position, widget) {
-                    if (position == null)
+          Container(
+              width: MediaQuery.of(context).size.width / 1.3,
+              height: MediaQuery.of(context).size.height / 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18.0),
+                color: Colors.white.withOpacity(0.1),
+              ),
+              alignment: Alignment.center,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: firebase
+                      .collection("saved_activities")
+                      .where("customer_id", isEqualTo: auth.currentUser.email)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
                       return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    return MapScreen(
-                      initialPostion: position,
+                          child: SpinKitFadingCircle(color: Colors.amber[700]));
+                    }
+
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      height: MediaQuery.of(context).size.height / 2.2,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot.data.docs.map((doc) {
+                          return Card(
+                              color: Color.fromRGBO(35, 36, 70, 1),
+                              elevation: 9,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  StreamBuilder<DocumentSnapshot>(
+                                      stream: firebase
+                                          .collection("users")
+                                          .doc(doc.data()["customer_id"])
+                                          .collection("user_data")
+                                          .doc("name")
+                                          .snapshots(),
+                                      builder: (context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return SizedBox(width: 0.0);
+                                        } else {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 12.0),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5.0,
+                                                horizontal: 10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text("${snapshot.data["name"]}",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                                Text(
+                                                    "${doc.data()["date"].toDate()}",
+                                                    style: TextStyle(
+                                                      color: Colors.amber[800],
+                                                    ))
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      }),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 2.0,
+                                                vertical: 10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "AVG SPEED",
+                                                  style: TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            36,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  (doc.data()["speed"] == null)
+                                                      ? "0.00"
+                                                      : "${doc.data()["speed"]}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            27,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 2.0,
+                                                vertical: 10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "DISTANCE",
+                                                  style: TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            38,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  (doc.data()["distance"] ==
+                                                          null)
+                                                      ? "0.00"
+                                                      : "${doc.data()["distance"]}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            27,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 2.0,
+                                                vertical: 10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "TIME",
+                                                  style: TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            37,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${doc.data()["time"]}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            28,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 2.0,
+                                                vertical: 10.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "CALARIES BURNT",
+                                                  style: TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            43,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 0.5,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${double.parse(doc.data()["calories_burned"]).floorToDouble()}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            28,
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 1.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height /
+                                        4.5,
+                                    margin: EdgeInsets.all(10.0),
+                                    child: Flexible(
+                                      child: MapPage(
+                                          originLat: doc.data()["origin_lat"],
+                                          originLon: doc.data()["origin_lon"],
+                                          destinLat: doc.data()["destin_lat"],
+                                          destinLon: doc.data()["destin_lon"]),
+                                    ),
+                                  ),
+                                ],
+                              ));
+                        }).toList(),
+                      ),
                     );
-                  },
-                )),*/
-          ),*/
+                  })),
           SizedBox(
             height: MediaQuery.of(context).size.height / 60,
           ),
@@ -661,7 +904,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  AdScreenState().loadAd(StartWorkOrRun());
+                  Get.to(() => StartWorkOrRun());
+//                  AdScreenState().loadAd(StartWorkOrRun());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -712,7 +956,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  AdScreenState().loadAd(HeartCalScreen());
+                  Get.to(() => HeartCalScreen());
+                  // AdScreenState().loadAd(HeartCalScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -783,8 +1028,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  //Get.to(() => AddSleepScreen());
-                  AdScreenState().loadAd(AddSleepScreen());
+                  Get.to(() => AddSleepScreen());
+                  // AdScreenState().loadAd(AddSleepScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -847,8 +1092,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  // Get.to(() => StartWorkOrRun());
-                  AdScreenState().loadAd(StartWorkOrRun());
+                  Get.to(() => StartWorkOrRun());
+                  // AdScreenState().loadAd(StartWorkOrRun());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -899,8 +1144,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  // Get.to(() => AddFoodDetailsScreen());
-                  AdScreenState().loadAd(AddFoodDetailsScreen());
+                  Get.to(() => AddFoodDetailsScreen());
+                  // AdScreenState().loadAd(AddFoodDetailsScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -951,8 +1196,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  //Get.to(() => AddWaterScreen());
-                  AdScreenState().loadAd(AddWaterScreen());
+                  Get.to(() => AddWaterScreen());
+                  //AdScreenState().loadAd(AddWaterScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -995,8 +1240,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  //Get.to(() => WeightScreen());
-                  AdScreenState().loadAd(WeightScreen());
+                  Get.to(() => WeightScreen());
+                  //  AdScreenState().loadAd(WeightScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -1047,8 +1292,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () {
-                  // Get.to(() => MyChallengesScreen());
-                  AdScreenState().loadAd(MyChallengesScreen());
+                  Get.to(() => MyChallengesScreen());
+                  //AdScreenState().loadAd(MyChallengesScreen());
                 },
                 child: Container(
                   margin: EdgeInsets.only(

@@ -51,7 +51,7 @@ class _MapPageState extends State<MapPage> {
             widget.originLat,
             widget.originLon,
           ),
-          zoom: 14,
+          zoom: 13,
         );
       });
     } catch (e) {

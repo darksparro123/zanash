@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:permission/permission.dart';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
