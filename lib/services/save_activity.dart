@@ -129,7 +129,8 @@ class SaveActivity {
           } else {
             lowest = snapshot.data()["least_steps"].toInt();
           }
-          if (snapshot.data()["average_steos"] + steps < 42000) {
+          if (snapshot.data()["average_steps"] + steps < 42000 &&
+              snapshot.data()["average_steps"] != null) {
             transaction.update(documentReference, {
               "average_steps": steps + snapshot.data()["average_steps"].toInt(),
               "highest_steps": highestStapes,

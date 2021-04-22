@@ -13,6 +13,8 @@ import 'package:zaanassh/screens/set_goal_dialog.dart';
 import 'package:zaanassh/screens/user_challenges.dart';
 import 'package:zaanassh/screens/sleep.dart';
 
+import 'ads/banner_ad.dart';
+
 class UsScreen extends StatefulWidget {
   @override
   _UsScreenState createState() => _UsScreenState();
@@ -512,7 +514,15 @@ class _UsScreenState extends State<UsScreen> {
                     SleepIndicator(),
                     CalCaloriesPercantage(),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                BannerAdScreen(),
+                SizedBox(
+                  height: 15.0,
+                ),
+                BannerAdScreen(),
               ],
             ),
           ),

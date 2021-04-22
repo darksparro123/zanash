@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:zaanassh/screens/daily_record_screen.dart';
 import 'package:zaanassh/screens/drawe.dart';
 import 'package:zaanassh/screens/find_friends_screen.dart';
@@ -600,11 +601,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             Get.to(() => WeeklySummariesScreen());
                           },
-                          title: Text("Weekly Summary"),
-                          subtitle:
-                              Text("Last week's activity (15:21 April 2021)"),
+                          title: Text("Weekly Summaries",
+                              style: TextStyle(
+                                color: Colors.amber[800],
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20.0,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          subtitle: Text(
+                            "Last week's activity (${DateFormat("dd/MM").format(DateTime.now())})",
+                            style: TextStyle(
+                              color: Colors.amber[800],
+                            ),
+                          ),
                           trailing: IconButton(
-                              icon: Icon(Icons.arrow_right), onPressed: () {}),
+                              icon: Icon(Icons.arrow_right,
+                                  color: Colors.amber[700]),
+                              onPressed: () {}),
                         )
                       : SizedBox(width: 0),
                   Container(

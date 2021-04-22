@@ -7,9 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zaanassh/models/sport_model.dart';
-import 'package:zaanassh/screens/choose_sport.dart';
+
 import 'package:zaanassh/screens/navigation_bar.dart';
-import 'package:zaanassh/screens/record_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:zaanassh/services/ads/ad_helper.dart';
 
 import 'package:zaanassh/screens/start_runScreen.dart';
 import 'package:zaanassh/services/calculate_calorieds.dart';
@@ -41,9 +42,31 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
   TextEditingController typeController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   CalculateColories calculateColories = CalculateColories();
+  InterstitialAd _interstitialAd;
   @override
   void initState() {
+    _interstitialAd = InterstitialAd(
+      request: AdRequest(),
+      adUnitId: AddHelper.interstitialAdUnitId,
+      listener: AdListener(onAdClosed: (ad) {
+        print("Add closed");
+
+        //
+        Get.to(() => NavigationBarScreen());
+      }, onAdOpened: (ad) {
+        print("Add opened");
+      }, onAdFailedToLoad: (ad, error) {
+        print("Ad load falied $error");
+      }),
+    );
+    _interstitialAd.load();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   final firebase = FirebaseFirestore.instance;
@@ -156,7 +179,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                         Text(
                           (widget.speed == null)
                               ? "0.00"
-                              : "${widget.speed.toString()}",
+                              : "${double.parse(widget.speed).floorToDouble()}",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width / 27,
@@ -621,7 +644,7 @@ class _SaveActivityScreenState extends State<SaveActivityScreen> {
                     if (a) {
                       Get.snackbar(
                           "Save Activity", "Activity Saved Succesfully");
-                      Get.to(() => NavigationBarScreen());
+                      _interstitialAd.show();
                     } else {
                       Get.snackbar("Save Activity", "Activity Saving failed");
                     }

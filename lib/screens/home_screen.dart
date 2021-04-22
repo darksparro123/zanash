@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:random_color/random_color.dart';
 import 'package:zaanassh/screens/add_food_details_screen.dart';
 import 'package:zaanassh/screens/ads/ad_screen.dart';
+import 'package:zaanassh/screens/ads/banner_ad.dart';
 import 'package:zaanassh/screens/cal_heart.dart';
 import 'package:zaanassh/screens/add_sleep.dart';
 import 'package:zaanassh/screens/add_water.dart';
@@ -1535,6 +1536,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 }),
           ),
+          BannerAdScreen(),
+          SizedBox(
+            height: 15.0,
+          ),
+          BannerAdScreen(),
         ],
       ),
     );

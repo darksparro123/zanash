@@ -471,6 +471,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                       setState(() {
                         s = true;
                       });
+                      //Get.pa;
                     },
                     child: Container(
                       decoration: BoxDecoration(
