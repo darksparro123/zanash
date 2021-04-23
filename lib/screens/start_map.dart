@@ -11,6 +11,7 @@ import 'package:zaanassh/screens/save_activity.dart';
 import 'package:zaanassh/services/geo_locator_service.dart';
 import 'package:get/get.dart';
 
+import 'cal_heart_from_sensor.dart';
 import 'calculate_distances/calculate_distance.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +22,7 @@ class StartWorkOrRun extends StatefulWidget {
 
 class _StartWorkOrRunState extends State<StartWorkOrRun> {
   GeolocatorService geolocatorService = GeolocatorService();
+  bool isRoutes = true;
   bool s = false;
   double initialLatitude;
   double initialLongitude;
@@ -210,7 +212,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: FutureBuilder<Position>(
                 future: setLocation(),
                 builder: (context, AsyncSnapshot<Position> snapshot) {
@@ -237,7 +239,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             margin: EdgeInsets.all(4.0),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(35, 36, 70, 1),
@@ -253,207 +255,337 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("TIME",
-                          style: TextStyle(
-                              color: Colors.amber[700],
-                              letterSpacing: 2.0,
-                              fontSize:
-                                  MediaQuery.of(context).size.width / 22.0)),
-                      stopWatch(),
-                      Container(
-                        color: Colors.grey[600],
-                        child: SizedBox(
-                          height: 2.0,
-                          width: MediaQuery.of(context).size.width / 1.2,
-                        ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CalculateDistance(),
-                          Container(
-                              color: Colors.grey[600],
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 10.0,
-                                width: 3.0,
-                              )),
-                          FutureBuilder<double>(
-                              future: setSpeed(),
-                              builder: (context, AsyncSnapshot snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child:
-                                        SpinKitChasingDots(color: Colors.amber),
-                                  );
-                                }
-                                var speed = snapshot.data.floorToDouble();
-                                return (!isStarted)
-                                    ? Column(
-                                        children: [
-                                          Text("AVG.SPEED",
-                                              style: TextStyle(
-                                                  color: Colors.amber[700],
-                                                  letterSpacing: 2.0,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          22.0)),
-                                          Text(
-                                            "${snapshot.data.floorToDouble()} ${unit}ps",
-                                            style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  6.5,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          Text("AVG.SPEED",
-                                              style: TextStyle(
-                                                  color: Colors.amber[700],
-                                                  letterSpacing: 2.0,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          22.0)),
-                                          Text(
-                                            "$speed",
-                                            style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  6.5,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                              })
-                        ],
-                      ),
-                      Container(
-                        color: Colors.grey[600],
-                        child: SizedBox(
-                          height: 2.0,
-                          width: MediaQuery.of(context).size.width / 1.2,
-                        ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MaterialButton(
-                            onPressed:
-                                isStarted ? startsStopWatch : stopsStopWatch,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width / 6,
-                              height: MediaQuery.of(context).size.width / 6,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  //borderRadius: BorderRadius.circular(15.0),
-                                  color: Colors.amber[600]),
-                              child: Icon(
-                                (isStarted)
-                                    ? Icons.play_arrow_sharp
-                                    : Icons.stop,
-                                color: Colors.white,
-                                size: MediaQuery.of(context).size.width / 8,
-                              ),
-                            ),
-                          ),
-                          MaterialButton(
-                            onPressed: () {
-                              //print(GeolocationPermission.location.value);
-
-                              Get.to(() => SaveActivityScreen(
-                                    speed: speed.toString(),
-                                    time: stopTimetoDisplay,
-                                    currentPosition: streamPosition,
-                                    cTime: time,
-                                    initialPosition: position,
-                                    showMap: true,
-                                    distance: distance.toString(),
-                                  ));
-
-                              print("Started $isStarted and $buttonText");
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                // color: Colors.amber[700],
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.amber[700],
-                                  width: 5.0,
-                                ),
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.width * 0.3,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                setState(() {
+                                  isRoutes = true;
+                                });
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  // color: Colors.amber[700],
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Color.fromRGBO(35, 36, 70, 1),
-                                    width: 5.0,
-                                  ),
+                                  color: Colors.amber[700],
+                                  borderRadius: BorderRadius.circular(18.0),
                                 ),
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.width * 0.3,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.amber[700],
-                                      shape: BoxShape.circle),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "FINISH",
+                                width: MediaQuery.of(context).size.width / 4,
+                                height:
+                                    MediaQuery.of(context).size.height / 18.0,
+                                alignment: Alignment.center,
+                                child: Text("Routes",
                                     style: TextStyle(
-                                      color: Color.fromRGBO(35, 36, 70, 1),
-                                      letterSpacing: 1.5,
+                                      color: Colors.white,
                                       fontSize:
                                           MediaQuery.of(context).size.width /
                                               22.0,
-                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ),
+                            ),
+                            MaterialButton(
+                              onPressed: () {
+                                setState(() {
+                                  isRoutes = false;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.amber[700],
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                width: MediaQuery.of(context).size.width / 4,
+                                height:
+                                    MediaQuery.of(context).size.height / 18.0,
+                                alignment: Alignment.center,
+                                child: Text("Heart Beat",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              22.0,
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      (isRoutes)
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.45,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("TIME",
+                                      style: TextStyle(
+                                          color: Colors.amber[700],
+                                          letterSpacing: 2.0,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              22.0)),
+                                  stopWatch(),
+                                  Container(
+                                    color: Colors.grey[600],
+                                    child: SizedBox(
+                                      height: 2.0,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
                                     ),
                                   ),
-                                ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CalculateDistance(),
+                                      Container(
+                                          color: Colors.grey[600],
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                10.0,
+                                            width: 3.0,
+                                          )),
+                                      FutureBuilder<double>(
+                                          future: setSpeed(),
+                                          builder: (context,
+                                              AsyncSnapshot snapshot) {
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SpinKitChasingDots(
+                                                    color: Colors.amber),
+                                              );
+                                            }
+                                            var speed =
+                                                snapshot.data.floorToDouble();
+                                            return (!isStarted)
+                                                ? Column(
+                                                    children: [
+                                                      Text("AVG.SPEED",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .amber[700],
+                                                              letterSpacing:
+                                                                  2.0,
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  22.0)),
+                                                      Text(
+                                                        "${snapshot.data.floorToDouble()} ${unit}ps",
+                                                        style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              6.5,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Column(
+                                                    children: [
+                                                      Text("AVG.SPEED",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .amber[700],
+                                                              letterSpacing:
+                                                                  2.0,
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  22.0)),
+                                                      Text(
+                                                        "$speed",
+                                                        style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              6.5,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                          })
+                                    ],
+                                  ),
+                                  Container(
+                                    color: Colors.grey[600],
+                                    child: SizedBox(
+                                      height: 2.0,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: isStarted
+                                            ? startsStopWatch
+                                            : stopsStopWatch,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              //borderRadius: BorderRadius.circular(15.0),
+                                              color: Colors.amber[600]),
+                                          child: Icon(
+                                            (isStarted)
+                                                ? Icons.play_arrow_sharp
+                                                : Icons.stop,
+                                            color: Colors.white,
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                8,
+                                          ),
+                                        ),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () {
+                                          //print(GeolocationPermission.location.value);
+
+                                          Get.to(() => SaveActivityScreen(
+                                                speed: speed.toString(),
+                                                time: stopTimetoDisplay,
+                                                currentPosition: streamPosition,
+                                                cTime: time,
+                                                initialPosition: position,
+                                                showMap: true,
+                                                distance: distance.toString(),
+                                              ));
+
+                                          print(
+                                              "Started $isStarted and $buttonText");
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            // color: Colors.amber[700],
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.amber[700],
+                                              width: 5.0,
+                                            ),
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              // color: Colors.amber[700],
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Color.fromRGBO(
+                                                    35, 36, 70, 1),
+                                                width: 5.0,
+                                              ),
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.amber[700],
+                                                  shape: BoxShape.circle),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.2,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.2,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "FINISH",
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      35, 36, 70, 1),
+                                                  letterSpacing: 1.5,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          22.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 12.0,
+                                      ),
+                                      MaterialButton(
+                                        onPressed:
+                                            isReset ? resetsStopWatch : null,
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.restore_outlined,
+                                            color: Colors.amber[600],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 12.0,
-                          ),
-                          MaterialButton(
-                            onPressed: isReset ? resetsStopWatch : null,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 8,
-                              height: MediaQuery.of(context).size.width / 8,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.restore_outlined,
-                                color: Colors.amber[600],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              // child: HeartSensorScreen(),
+                            )
                     ],
                   )
                 : MaterialButton(

@@ -80,6 +80,9 @@ dependencies:
   google_mobile_ads: ^0.12.1+1
   #charts_flutter: ^0.10.0
   stop_watch_timer: ^1.1.0+1
+  sensors: ^2.0.0
+  snake: ^0.1.0
+  #conreality_pulse: ^0.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
