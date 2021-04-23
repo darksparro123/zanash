@@ -57,7 +57,7 @@ class _MyChallengesScreenState extends State<MyChallengesScreen> {
           return ListView(
             children: snapshot.data.docs.map((doc) {
               if (doc.data() == null || doc.data()["challenge_name"] == null) {
-                Column(
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

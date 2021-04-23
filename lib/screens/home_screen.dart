@@ -507,6 +507,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     stream: FirebaseFirestore.instance
                         .collection("daily_activities")
                         //.orderBy("date")
+
                         .where("month",
                             isEqualTo:
                                 SaveActivity().getMonth(DateTime.now().month))
