@@ -80,7 +80,7 @@ class _CalculateDistanceState extends State<CalculateDistance> {
               Text(
                 "${snapshot.data} $unit",
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width / 6.5,
+                  fontSize: MediaQuery.of(context).size.width / 7.0,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),

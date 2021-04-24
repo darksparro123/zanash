@@ -15,6 +15,8 @@ import 'cal_heart_from_sensor.dart';
 import 'calculate_distances/calculate_distance.dart';
 import 'package:http/http.dart' as http;
 
+import 'heart_rate/heart_rate.dart';
+
 class StartWorkOrRun extends StatefulWidget {
   @override
   _StartWorkOrRunState createState() => _StartWorkOrRunState();
@@ -321,14 +323,15 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("TIME",
-                                      style: TextStyle(
-                                          color: Colors.amber[700],
-                                          letterSpacing: 2.0,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              22.0)),
+                                  Text(
+                                    "TIME",
+                                    style: TextStyle(
+                                        color: Colors.amber[700],
+                                        letterSpacing: 2.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                22.0),
+                                  ),
                                   stopWatch(),
                                   Container(
                                     color: Colors.grey[600],
@@ -387,7 +390,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                                                       context)
                                                                   .size
                                                                   .width /
-                                                              6.5,
+                                                              7.0,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: Colors.white,
@@ -415,7 +418,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                                                       context)
                                                                   .size
                                                                   .width /
-                                                              6.5,
+                                                              7.0,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: Colors.white,
@@ -584,7 +587,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                             )
                           : Container(
                               width: MediaQuery.of(context).size.width / 1.5,
-                              // child: HeartSensorScreen(),
+                              child: HeartRateScreen(),
                             )
                     ],
                   )
