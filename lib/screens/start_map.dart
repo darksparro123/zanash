@@ -49,7 +49,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
   }
 
   Future<bool> getPermisstion() async {
-    print("hapoi ${GeolocationPermission.location.value}");
+    //print("hapoi ${LocationPermission.location.value}");
 
     PermissionName permissionName = PermissionName.Location;
     Permission.requestPermissions([permissionName]);
