@@ -14,8 +14,6 @@ import 'package:zaanassh/screens/save_activity.dart';
 import 'package:zaanassh/services/geo_locator_service.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:zaanassh/services/distance_calculator.dart';
-
 class RecordScreen extends StatefulWidget {
   final Position initialPosition;
   final String time;
@@ -45,10 +43,6 @@ class _RecordScreenState extends State<RecordScreen> {
   GeolocatorService geolocatorService = GeolocatorService();
   Geolocator geolocator = Geolocator();
   double time = 1.000000;
-
-  List<Position> points = [];
-  double _distance = 0.0;
-  double _avgSpeed = 0.0;
 //calculate distance
 
   void startTimer() {
@@ -112,7 +106,7 @@ class _RecordScreenState extends State<RecordScreen> {
 
   @override
   void initState() {
-    _getCurrentLocation();
+    getCurrentLocation();
     super.initState();
 
     setState(() {
@@ -140,48 +134,59 @@ class _RecordScreenState extends State<RecordScreen> {
   }
 
   //get currentLocation
-  _getCurrentLocation() async {
+  Future getCurrentLocation() async {
     var initPos = await geolocator.getCurrentPosition();
-    setState(() {
-      initPosition = initPos;
-      points.add(initPosition);
-    });
+    initPosition = initPos;
   }
 
   Position lastPosition;
+  double distance = 0.0;
   String unit = "m";
   int count = 0;
   String avgSpeed = "0";
-  Stream<double> getDistance() async* {
-    double distance = 0.0;
-    if (initPosition != null) {
-      Position currentPosition = await Geolocator().getCurrentPosition();
-      points.add(currentPosition);
-    }
-    if (points.length > 1) {
-      for (int i = 0; i < points.length; i++) {
-        print("point - ${points[i]}");
-        distance += coordinateDistance(
-              points[i].latitude,
-              points[i].longitude,
-              points[i + 1].latitude,
-              points[i + 1].longitude,
-            ) *
-            1000;
-      }
-      print("Distance - $distance");
-      yield distance;
-    } else {
-      yield distance;
-    }
-  }
+  Stream<double> getDistance(Position streamPosition) async* {
+    sPosition = streamPosition;
+    try {
+      /*Position initLocation = initPosition;
 
-  Stream<double> getAvgSpeed() async* {
-    double avgSpeed;
-    getDistance().listen((double distance) {
-      avgSpeed = distance / time;
-    });
-    yield avgSpeed;
+      //print(streamLocation.distinct());
+      String url =
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${initLocation.latitude},${initLocation.longitude}&destinations=${streamPosition.latitude},${streamPosition.longitude}&key=AIzaSyBInYMrODKeADbONhwaJ6-SqawifKDnzew";
+
+      var response = await http.post(Uri.parse(url));
+      //print(response.statusCode);
+      if (response.statusCode == 200) {
+        String re = response.body;
+        Map<String, dynamic> distanceData = jsonDecode(re);
+        // print("${distanceData["rows"][0]["elements"][0]["distance"]["text"]} ");
+        distance = double.parse(distanceData["rows"][0]["elements"][0]
+                ["distance"]["text"]
+            .split(" ")[0]);
+        unit = distanceData["rows"][0]["elements"][0]["distance"]["text"]
+            .split(" ")[1];
+      }*/
+      //print("lastPos: $lastPosition");
+      Future.delayed(Duration(milliseconds: 150), () async {
+        var p2pdistance = await geolocator.distanceBetween(
+            lastPosition.latitude,
+            lastPosition.longitude,
+            streamPosition.latitude,
+            streamPosition.longitude);
+        var tmp = p2pdistance.toStringAsFixed(3);
+        p2pdistance = double.parse(tmp);
+        // print("p2pDistance: $p2pdistance");
+        distance += p2pdistance;
+        if (distance >= 1000) {
+          distance = distance / 1000;
+          unit = "km";
+        }
+        avgSpeed = (distance / time).toStringAsFixed(2);
+      });
+      yield distance;
+    } catch (e) {
+      yield 0.0;
+    }
+    count++;
   }
 
   final firebase = FirebaseFirestore.instance;
@@ -260,9 +265,9 @@ class _RecordScreenState extends State<RecordScreen> {
           TextButton(
             onPressed: () async {
               Get.to(() => SaveActivityScreen(
-                    speed: (_distance ~/ time).toString(),
+                    speed: (distance ~/ time).toString(),
                     time: stopTimetoDisplay,
-                    distance: _distance.toString(),
+                    distance: distance.toString(),
                     initialPosition: widget.initialPosition,
                     cTime: time,
                     showMap: widget.showMap,
@@ -324,30 +329,13 @@ class _RecordScreenState extends State<RecordScreen> {
               ],
             ),
             Container(
-              child: StreamBuilder(
-                stream: getAvgSpeed(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    _avgSpeed = snapshot.data;
-                    return Text(
-                      "${(snapshot.data).toStringAsFixed(2)} ps",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 6.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    );
-                  } else {
-                    return Text(
-                      "0.0",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 6.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    );
-                  }
-                },
+              child: Text(
+                "$avgSpeed ps",
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width / 6.5,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
             Container(
@@ -376,33 +364,42 @@ class _RecordScreenState extends State<RecordScreen> {
               height: 20.0,
             ),
             StreamBuilder(
-              stream: getDistance(),
-              builder: (context, snapshot) {
-                print("snapshot - ${snapshot.data}");
-                if (snapshot.hasData) {
-                  _distance = snapshot.data;
-                  return Container(
-                    child: Text(
-                      "${(snapshot.data).toStringAsFixed(2)} $unit",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 6.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  );
-                } else {
-                  return Container(
-                    child: Text(
-                      "0.0 $unit",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width / 6.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
+              stream: geolocatorService.getCurruntLocation(),
+              builder: (context, AsyncSnapshot<Position> snapshot) {
+                if (!snapshot.hasData || snapshot.data == null) {
+                  return Center(
+                    child: SpinKitChasingDots(
+                      color: Colors.amber[700],
                     ),
                   );
                 }
+                if (lastPosition == null) {
+                  lastPosition = initPosition;
+                } else {
+                  lastPosition = snapshot.data;
+                }
+                print("CurrentPos: ${snapshot.data}");
+                return StreamBuilder(
+                  stream: getDistance(snapshot.data),
+                  // initialData: initialData ,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<double> snapshot2) {
+                    if (!snapshot2.hasData || snapshot2.data == null) {
+                      return Center(
+                          child: SpinKitChasingDots(color: Colors.amber[700]));
+                    }
+                    print("distance: ${snapshot2.data.round()}");
+                    return Container(
+                        child: Text(
+                      "${snapshot2.data.roundToDouble()} $unit",
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 6.5,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ));
+                  },
+                );
               },
             ),
             Container(

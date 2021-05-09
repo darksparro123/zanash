@@ -908,7 +908,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,
@@ -960,7 +960,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1032,7 +1032,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.6,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1096,7 +1096,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1148,7 +1148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1200,7 +1200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.6,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1244,7 +1244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,
@@ -1296,7 +1296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    right: 5.0,
+                    right: MediaQuery.of(context).size.width * 0.01,
                   ),
                   width: MediaQuery.of(context).size.width / 3.4,
                   height: MediaQuery.of(context).size.height / 5,

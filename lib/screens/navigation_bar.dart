@@ -4,6 +4,7 @@ import 'package:zaanassh/screens/daily_record_screen.dart';
 import 'package:zaanassh/screens/home_screen.dart';
 import 'package:zaanassh/screens/record_screen.dart';
 import 'package:zaanassh/screens/save_activity.dart';
+import 'package:zaanassh/screens/start_map.dart';
 import 'package:zaanassh/screens/us_screen.dart';
 
 class NavigationBarScreen extends StatefulWidget {
@@ -34,9 +35,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   List<Widget> screens = [
     HomeScreen(),
-    RecordScreen(
-      showMap: false,
-    ),
+    StartWorkOrRun(),
     UsScreen(),
   ];
 

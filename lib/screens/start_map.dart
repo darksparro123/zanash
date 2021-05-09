@@ -7,13 +7,16 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission/permission.dart';
 import 'package:zaanassh/screens/save_activity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:zaanassh/services/geo_locator_service.dart';
-import 'package:get/get.dart';
 
 import 'cal_heart_from_sensor.dart';
 import 'calculate_distances/calculate_distance.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:zaanassh/services/distance_calculator.dart';
 
 import 'heart_rate/heart_rate.dart';
 
@@ -33,17 +36,26 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
   bool isStopped = false;
   bool isReset = false;
   Set<Marker> markers = {};
+
+  PolylinePoints polylinePoints;
+  List<LatLng> polyLineCoordinates = [];
+  Map<PolylineId, Polyline> polylines = {};
+
+  double totalDistance = 0.0;
+
   Future<Position> setLocation() async {
     position = await geolocatorService.getInitialLocation();
+    Marker initialLocationMarker = new Marker(
+      markerId: MarkerId("My Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(30.0),
+      position: LatLng(position.latitude, position.longitude),
+      infoWindow: InfoWindow(
+        title: "Your Initial Location",
+        anchor: Offset(0.5, 0.0),
+      ),
+    );
     setState(() {
-      markers.add(Marker(
-          markerId: MarkerId("My Location"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(30.0),
-          position: LatLng(position.latitude, position.longitude),
-          infoWindow: InfoWindow(
-            title: "Your Current Location",
-            anchor: Offset(0.5, 0.0),
-          )));
+      markers.add(initialLocationMarker);
     });
     return position;
   }
@@ -135,35 +147,131 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
   }
 
   Future<Position> cPosition;
-  Position streamPosition;
   double distance;
   double speed;
-  String unit;
-  Future<double> setSpeed() async {
-    Position currentPosition = await cPosition;
+  String unit = "m";
+  String timeUnit = "mps";
+  Position streamPosition;
 
-    geolocatorService.getCurruntLocation().listen((Position p) {
-      streamPosition = p;
-    });
+  Stream<Set<Marker>> setMarkers() async* {
+    Position currentPosition = position;
+    Set<Marker> updated = {};
 
-    String url =
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${currentPosition.latitude},${currentPosition.longitude}&destinations=${streamPosition.latitude},${streamPosition.longitude}&key=AIzaSyBInYMrODKeADbONhwaJ6-SqawifKDnzew";
+    streamPosition = await Geolocator().getCurrentPosition();
 
-    var response = await http.post(Uri.parse(url));
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      String re = response.body;
-      Map<String, dynamic> distanceData = jsonDecode(re);
-      // print("${distanceData["rows"][0]["elements"][0]["distance"]["text"]} ");
-      distance = double.parse(distanceData["rows"][0]["elements"][0]["distance"]
-              ["text"]
-          .split(" ")[0]);
-      unit = distanceData["rows"][0]["elements"][0]["distance"]["text"]
-          .split(" ")[1];
+    Marker latestLocationMarker = new Marker(
+      markerId: MarkerId("My Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(30.0),
+      position: LatLng(streamPosition.latitude, streamPosition.longitude),
+      infoWindow: InfoWindow(
+        title: "Your Current Location",
+        anchor: Offset(0.5, 0.0),
+      ),
+    );
+
+    Marker initialLocationMarker = new Marker(
+      markerId: MarkerId("My Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(30.0),
+      position: LatLng(position.latitude, position.longitude),
+      infoWindow: InfoWindow(
+        title: "Your Initial Location",
+        anchor: Offset(0.5, 0.0),
+      ),
+    );
+    updated.add(initialLocationMarker);
+    updated.add(latestLocationMarker);
+    _createPolylines(position, streamPosition);
+    print("P - $position");
+    print("SP - $streamPosition");
+    yield updated;
+  }
+
+  _createPolylines(Position start, Position destination) async {
+    polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "AIzaSyD-eOH7NucH1jBKFITkipHNErz6Pblb3KI",
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+      travelMode: TravelMode.walking,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polyLineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
     }
-    // print("distance : $distance");
-    speed = distance / time;
-    return distance / time;
+
+    PolylineId id = PolylineId('poly');
+
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.red,
+      points: polyLineCoordinates,
+      width: 3,
+    );
+
+    polylines[id] = polyline;
+
+    totalDistance = 0.0;
+
+    for (int i = 0; i < polyLineCoordinates.length; i++) {
+      setState(() {
+        totalDistance += coordinateDistance(
+              polyLineCoordinates[i].latitude,
+              polyLineCoordinates[i].longitude,
+              polyLineCoordinates[i + 1].latitude,
+              polyLineCoordinates[i + 1].longitude,
+            ) *
+            1000;
+      });
+    }
+
+    if (totalDistance > 1000) {
+      setState(() {
+        unit = "km";
+        totalDistance = totalDistance / 1000;
+        timeUnit = "kmps";
+      });
+    }
+  }
+
+  final firebase = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  int age = 0;
+  double weight = 0;
+
+  Stream<double> calculateCalories(int time) async* {
+    double calories = 0.0;
+    if (isStarted) {
+      DocumentReference ageReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("user_data")
+          .doc("age");
+
+      DocumentReference weightReference = firebase
+          .collection("users")
+          .doc(auth.currentUser.email)
+          .collection("weight")
+          .doc("weight");
+      firebase.runTransaction((transaction) async {
+        DocumentSnapshot ageSnapshot = await transaction.get(ageReference);
+        DocumentSnapshot weightSnapshot =
+            await transaction.get(weightReference);
+
+        age = DateTime.now().year -
+            int.parse(ageSnapshot.data()["age"].toString().split("-")[0]);
+        // print("Age is $age");
+        weight = weightSnapshot.data()["weight"];
+        // print("weight is $weight ");
+        calories = (age * 0.074) -
+            (weight * 0.05741) +
+            (78 * 0.4472 - 20.4022) * time / 4.184;
+      });
+    }
+    print("Calories is $calories");
+    yield calories;
   }
 
   @override
@@ -219,7 +327,6 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                 future: setLocation(),
                 builder: (context, AsyncSnapshot<Position> snapshot) {
                   if (!snapshot.hasData) {
-                    print("snapshot.hasData");
                     return Center(
                       child: SpinKitDualRing(
                         color: Colors.amber[700],
@@ -227,15 +334,35 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                     );
                   }
                   // print(snapshot.data);
-                  return GoogleMap(
-                    mapType: MapType.normal,
-                    myLocationEnabled: true,
-                    markers: markers,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          snapshot.data.latitude, snapshot.data.longitude),
-                      zoom: 15,
-                    ),
+                  return StreamBuilder<Set<Marker>>(
+                    stream: setMarkers(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var _markers = snapshot.data;
+                        return GoogleMap(
+                          mapType: MapType.normal,
+                          myLocationEnabled: true,
+                          markers: markers,
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(_markers.last.position.latitude,
+                                _markers.last.position.longitude),
+                            zoom: 15,
+                          ),
+                          polylines: Set<Polyline>.of(polylines.values),
+                        );
+                      } else {
+                        return GoogleMap(
+                          mapType: MapType.normal,
+                          myLocationEnabled: true,
+                          markers: markers,
+                          initialCameraPosition: CameraPosition(
+                            target:
+                                LatLng(position.latitude, position.longitude),
+                            zoom: 15,
+                          ),
+                        );
+                      }
+                    },
                   );
                 }),
           ),
@@ -302,13 +429,15 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                 height:
                                     MediaQuery.of(context).size.height / 18.0,
                                 alignment: Alignment.center,
-                                child: Text("Heart Beat",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22.0,
-                                    )),
+                                child: Text(
+                                  "Heart Beat",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            22.0,
+                                  ),
+                                ),
                               ),
                             )
                           ],
@@ -347,86 +476,114 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      CalculateDistance(),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "DISTANCE",
+                                            style: TextStyle(
+                                                color: Colors.amber[700],
+                                                letterSpacing: 2.0,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    22.0),
+                                          ),
+                                          Text(
+                                            "${totalDistance.toStringAsFixed(2)} $unit",
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  18.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       Container(
-                                          color: Colors.grey[600],
-                                          child: SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                10.0,
-                                            width: 3.0,
-                                          )),
-                                      FutureBuilder<double>(
-                                          future: setSpeed(),
-                                          builder: (context,
-                                              AsyncSnapshot snapshot) {
-                                            if (!snapshot.hasData) {
-                                              return Center(
-                                                child: SpinKitChasingDots(
-                                                    color: Colors.amber),
-                                              );
-                                            }
-                                            var speed =
-                                                snapshot.data.floorToDouble();
-                                            return (!isStarted)
-                                                ? Column(
-                                                    children: [
-                                                      Text("AVG.SPEED",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .amber[700],
-                                                              letterSpacing:
-                                                                  2.0,
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  22.0)),
-                                                      Text(
-                                                        "${snapshot.data.floorToDouble()} ${unit}ps",
-                                                        style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              7.0,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                : Column(
-                                                    children: [
-                                                      Text("AVG.SPEED",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .amber[700],
-                                                              letterSpacing:
-                                                                  2.0,
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  22.0)),
-                                                      Text(
-                                                        "$speed",
-                                                        style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              7.0,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                          })
+                                        color: Colors.grey[600],
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              10.0,
+                                          width: 3.0,
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "AVG SPEED",
+                                            style: TextStyle(
+                                                color: Colors.amber[700],
+                                                letterSpacing: 2.0,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    22.0),
+                                          ),
+                                          Text(
+                                            "${(totalDistance / time).toStringAsFixed(2)} $timeUnit",
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  18.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        color: Colors.grey[600],
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              10.0,
+                                          width: 3.0,
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "CALORIES",
+                                            style: TextStyle(
+                                                color: Colors.amber[700],
+                                                letterSpacing: 2.0,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    22.0),
+                                          ),
+                                          StreamBuilder(
+                                            stream:
+                                                calculateCalories(time.round()),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  "${snapshot.data}",
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            18.0,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  ),
+                                                );
+                                              } else {
+                                                return SpinKitDualRing(
+                                                  color: Colors.amber[700],
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   Container(
@@ -477,13 +634,15 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                                           //print(GeolocationPermission.location.value);
 
                                           Get.to(() => SaveActivityScreen(
-                                                speed: speed.toString(),
+                                                speed: (totalDistance / time)
+                                                    .toStringAsFixed(2),
                                                 time: stopTimetoDisplay,
                                                 currentPosition: streamPosition,
                                                 cTime: time,
                                                 initialPosition: position,
                                                 showMap: true,
-                                                distance: distance.toString(),
+                                                distance:
+                                                    "${totalDistance.toStringAsFixed(2)} $unit}",
                                               ));
 
                                           print(
@@ -595,6 +754,7 @@ class _StartWorkOrRunState extends State<StartWorkOrRun> {
                     onPressed: () {
                       //print(GeolocationPermission.location.value);
                       toggleButtonText();
+                      startsStopWatch();
                       /*Get.to(() => (RecordScreen(
                               showMap: true,
                               initialPosition: Position(
